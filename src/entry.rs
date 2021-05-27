@@ -1,5 +1,5 @@
 mod error;
-mod kinds;
+pub mod kinds;
 mod render;
 
 use kinds::*;
@@ -36,4 +36,5 @@ pub type Entries<'a> = Vec<Entry<'a>>;
 pub enum EntryKind<'a> {
     #[serde(borrow)]
     Section(section::EntrySection<'a>),
+    Entries(entries::EntryEntries<'a>),
 }

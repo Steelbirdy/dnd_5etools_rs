@@ -1,3 +1,4 @@
+pub mod entries;
 pub mod section;
 
 use super::*;
