@@ -27,7 +27,6 @@ impl DefaultStringRenderer {
         Ok(text.to_owned())
     }
 
-
     fn check_arg_count<R: RangeBounds<usize>>(expected: R, actual: usize) -> Result<()> {
         if expected.contains(&actual) {
             Ok(())
@@ -106,11 +105,11 @@ impl DefaultStringRenderer {
         Self::check_arg_count(1.., args.len())?;
 
         if args.len() >= 2 {
-            Ok(self.render(args[1])?)
+            self.render(args[1])
         } else {
-            let n = args[0]
-                .parse::<i64>()
-                .map_err(|_| RenderErrorKind::ArgFormat("Could not parse argument as an integer."))?;
+            let n = args[0].parse::<i64>().map_err(|_| {
+                RenderErrorKind::ArgFormat("Could not parse argument as an integer.")
+            })?;
             Ok(format!("{:+}", n))
         }
     }
@@ -136,9 +135,10 @@ impl DefaultStringRenderer {
 
         let new_text = self.render(args[0])?;
 
-        let old_text = args.get(1)
+        let old_text = args
+            .get(1)
             .map(|s| self.render(s))
-            .unwrap_or(Ok(String::from("")))?;
+            .unwrap_or_else(|| Ok(String::from("")))?;
 
         if !new_text.is_empty() && !old_text.is_empty() {
             Ok(format!(
@@ -164,8 +164,7 @@ impl DefaultStringRenderer {
 
         let compact_text = self.render(args[0])?;
 
-        let flags = args.get(2)
-            .unwrap_or(&"");
+        let flags = args.get(2).unwrap_or(&"");
         let flags = flags.chars().collect::<HashSet<_>>();
 
         if flags.contains(&'x') {
@@ -181,9 +180,9 @@ impl DefaultStringRenderer {
         Self::check_arg_count(1.., args.len())?;
 
         if args.len() >= n {
-            Ok(self.render(args[n-1])?)
+            self.render(args[n - 1])
         } else {
-            Ok(self.render(args[0])?)
+            self.render(args[0])
         }
     }
 }
@@ -198,31 +197,31 @@ impl StringRenderer for DefaultStringRenderer {
     /// Default behavior is to return the first argument unchanged
     fn render_bold(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_italic(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_strikethrough(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_underline(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_note(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to use [::render_attack_tag]
@@ -238,55 +237,55 @@ impl StringRenderer for DefaultStringRenderer {
     /// Default behavior is to return the first argument unchanged
     fn render_color(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_highlight(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_help(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic_h1(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic_h2(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic_h3(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic_h4(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_comic_note(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return [format!("DC {}", first_arg)]
@@ -324,7 +323,7 @@ impl StringRenderer for DefaultStringRenderer {
         Self::check_arg_count(1.., args.len())?;
 
         if args.len() >= 2 {
-            Ok(self.render(args[1])?)
+            self.render(args[1])
         } else if args.len() == 1 {
             Ok(format!("{}%", args[0]))
         } else {
@@ -345,37 +344,37 @@ impl StringRenderer for DefaultStringRenderer {
     /// Default behavior is to return the first argument unchanged
     fn render_scale_dice(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_scale_damage(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_filter(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_link(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_5etools(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_footnote(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to use [::render_homebrew_tag]
@@ -386,13 +385,13 @@ impl StringRenderer for DefaultStringRenderer {
     /// Default behavior is to return the first argument unchanged
     fn render_skill(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_sense(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to use [::render_area_tag]
@@ -403,19 +402,19 @@ impl StringRenderer for DefaultStringRenderer {
     /// Default behavior is to return the first argument unchanged
     fn render_loader(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_book(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the first argument unchanged
     fn render_adventure(&self, args: Vec<&str>) -> Result<String> {
         Self::check_arg_count(1.., args.len())?;
-        Ok(self.render(args[0])?)
+        self.render(args[0])
     }
 
     /// Default behavior is to return the fourth argument if present, otherwise the first argument
@@ -579,7 +578,10 @@ mod tests {
 
     #[test]
     fn attack_tag() {
-        check(DefaultStringRenderer::render_attack_tag(vec!["mw"]), Ok("Melee Weapon Attack"));
+        check(
+            DefaultStringRenderer::render_attack_tag(vec!["mw"]),
+            Ok("Melee Weapon Attack"),
+        );
 
         check(
             DefaultStringRenderer::render_attack_tag(vec!["mw,rs"]),
@@ -599,18 +601,33 @@ mod tests {
             Ok("display text"),
         );
 
-        check(DefaultStringRenderer.render_hit_bonus_tag(vec!["-7"]), Ok("-7"));
+        check(
+            DefaultStringRenderer.render_hit_bonus_tag(vec!["-7"]),
+            Ok("-7"),
+        );
 
-        check(DefaultStringRenderer.render_hit_bonus_tag(vec!["7"]), Ok("+7"));
+        check(
+            DefaultStringRenderer.render_hit_bonus_tag(vec!["7"]),
+            Ok("+7"),
+        );
     }
 
     #[test]
     fn recharge_tag() {
-        check(DefaultStringRenderer::render_recharge_tag(vec!["4"]), Ok("(Recharge 4-6)"));
+        check(
+            DefaultStringRenderer::render_recharge_tag(vec!["4"]),
+            Ok("(Recharge 4-6)"),
+        );
 
-        check(DefaultStringRenderer::render_recharge_tag(vec!["6"]), Ok("(Recharge 6)"));
+        check(
+            DefaultStringRenderer::render_recharge_tag(vec!["6"]),
+            Ok("(Recharge 6)"),
+        );
 
-        check(DefaultStringRenderer::render_recharge_tag(vec![]), Ok("(Recharge 6)"));
+        check(
+            DefaultStringRenderer::render_recharge_tag(vec![]),
+            Ok("(Recharge 6)"),
+        );
     }
 
     #[test]
@@ -638,10 +655,19 @@ mod tests {
 
     #[test]
     fn area_tag() {
-        check(DefaultStringRenderer.render_area_tag(vec!["5 feet"]), Ok("area 5 feet"));
+        check(
+            DefaultStringRenderer.render_area_tag(vec!["5 feet"]),
+            Ok("area 5 feet"),
+        );
 
-        check(DefaultStringRenderer.render_area_tag(vec!["5 feet", "", "xu"]), Ok("5 feet"));
+        check(
+            DefaultStringRenderer.render_area_tag(vec!["5 feet", "", "xu"]),
+            Ok("5 feet"),
+        );
 
-        check(DefaultStringRenderer.render_area_tag(vec!["5 feet", "", "u"]), Ok("Area 5 feet"));
+        check(
+            DefaultStringRenderer.render_area_tag(vec!["5 feet", "", "u"]),
+            Ok("Area 5 feet"),
+        );
     }
 }
