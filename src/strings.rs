@@ -10,7 +10,7 @@ pub use render::{DefaultStringRenderer, StringRenderer};
 pub type Result<T> = std::result::Result<T, Error>;
 
 #[allow(dead_code)]
-pub fn render<R: StringRenderer>(mut renderer: R, input: &str) -> Result<String> {
+pub fn render<R: StringRenderer>(renderer: R, input: &str) -> Result<String> {
     renderer.render(input)
 }
 
@@ -18,7 +18,7 @@ pub fn render<R: StringRenderer>(mut renderer: R, input: &str) -> Result<String>
 mod tests {
     use super::*;
 
-    fn check<R: StringRenderer>(mut renderer: R, input: &str, expected: Result<&str>) {
+    fn check<R: StringRenderer>(renderer: R, input: &str, expected: Result<&str>) {
         assert_eq!(renderer.render(input), expected.map(String::from),)
     }
 

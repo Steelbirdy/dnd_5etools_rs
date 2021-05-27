@@ -8,9 +8,9 @@ use super::{
 };
 
 pub trait StringRenderer {
-    fn render(&mut self, input: &str) -> Result<String>;
+    fn render(&self, input: &str) -> Result<String>;
 
-    fn render_tag(&mut self, tag: Tag) -> Result<String> {
+    fn render_tag(&self, tag: Tag) -> Result<String> {
         match tag.name {
             TagName::Bold => self.render_bold(tag.args),
             TagName::Italic => self.render_italic(tag.args),
@@ -77,190 +77,190 @@ pub trait StringRenderer {
         }
     }
 
-    fn render_bold(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_bold(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_italic(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_italic(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_strikethrough(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_strikethrough(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_underline(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_underline(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_note(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_note(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_attack(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_attack(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_h(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_h(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_color(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_color(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_highlight(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_highlight(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_help(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_help(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic_h1(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic_h1(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic_h2(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic_h2(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic_h3(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic_h3(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic_h4(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic_h4(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_comic_note(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_comic_note(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_dc(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_dc(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_dice(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_dice(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_damage(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_damage(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_d20(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_d20(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_hit(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_hit(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_chance(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_chance(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_recharge(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_recharge(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_hit_your_spell_attack(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_hit_your_spell_attack(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_scale_dice(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_scale_dice(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_scale_damage(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_scale_damage(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_filter(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_filter(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_link(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_link(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_5etools(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_5etools(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_footnote(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_footnote(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_homebrew(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_homebrew(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_skill(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_skill(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_sense(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_sense(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_area(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_area(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_loader(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_loader(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_book(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_book(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_adventure(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_adventure(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_deity(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_deity(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_class_feature(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_class_feature(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_subclass_feature(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_subclass_feature(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_spell(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_spell(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_item(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_item(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_class(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_class(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_creature(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_creature(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_condition_disease_status(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_condition_disease_status(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_background(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_background(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_race(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_race(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_optional_feature(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_optional_feature(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_reward(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_reward(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_feat(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_feat(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_psionic(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_psionic(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_object(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_object(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_cult_boon(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_cult_boon(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_trap_hazard(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_trap_hazard(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_variant_rule(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_variant_rule(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_table(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_table(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_vehicle(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_vehicle(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_vehicle_upgrade(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_vehicle_upgrade(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_action(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_action(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_language(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_language(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_char_option(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_char_option(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
-    fn render_recipe(&mut self, _args: Vec<&str>) -> Result<String> {
+    fn render_recipe(&self, _args: Vec<&str>) -> Result<String> {
         unimplemented!()
     }
 }
