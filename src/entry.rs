@@ -39,4 +39,6 @@ pub enum EntryKind<'a> {
     Entries(entries::EntryEntries<'a>),
     Homebrew(homebrew::EntryHomebrew<'a>),
     Quote(quote::EntryQuote<'a>),
+    Inline(inline::EntryInline<'a>),
+    InlineBlock(inline::EntryInlineBlock<'a>),
 }
