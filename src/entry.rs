@@ -38,4 +38,5 @@ pub enum EntryKind<'a> {
     Section(section::EntrySection<'a>),
     Entries(entries::EntryEntries<'a>),
     Homebrew(homebrew::EntryHomebrew<'a>),
+    Quote(quote::EntryQuote<'a>),
 }
