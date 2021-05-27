@@ -26,7 +26,7 @@ impl<'a> Lexer<'a> {
 
         let ret = match token {
             Token::TagOpen => self.tag(),
-            Token::TagClose | Token::Text => self.text(span.start),
+            Token::TagClose | Token::ArgSeparator | Token::Text => self.text(span.start),
             Token::Error => self.error(LexErrorKind::UnexpectedToken),
         };
 
@@ -46,6 +46,10 @@ impl<'a> Lexer<'a> {
         };
 
         let mut depth = 1usize;
+        let args_start = first_span.start + tag_name.len() + 1;
+        let mut last_arg_start = args_start;
+
+        let mut args = Vec::new();
 
         let end: usize = loop {
             let (token, span) = match self.inner.next() {
@@ -61,17 +65,28 @@ impl<'a> Lexer<'a> {
                         break span.end;
                     }
                 }
+                Token::ArgSeparator => {
+                    if depth == 1 {
+                        if last_arg_start >= span.start {
+                            args.push("");
+                        } else {
+                            args.push(&self.source[last_arg_start..span.start]);
+                        }
+                        last_arg_start = span.end;
+                    }
+                }
                 Token::Text => (),
                 Token::Error => return self.error(LexErrorKind::UnexpectedToken),
             }
         };
 
-        let args_start = first_span.start + tag_name.len() + 1;
-        let args = if end <= args_start {
-            None
+        if last_arg_start >= end {
+            if !args.is_empty() {
+                args.push("");
+            }
         } else {
-            Some(&self.source[args_start..end - 1])
-        };
+            args.push(&self.source[last_arg_start..end-1]);
+        }
 
         Lexeme::Tag {
             name: tag_name,
@@ -90,7 +105,7 @@ impl<'a> Lexer<'a> {
                 Token::TagOpen => {
                     break span.start;
                 }
-                Token::TagClose | Token::Text => {
+                Token::TagClose | Token::ArgSeparator | Token::Text => {
                     self.inner.next();
                 }
                 Token::Error => {
@@ -117,11 +132,11 @@ impl<'a> Iterator for Lexer<'a> {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+#[derive(Debug, Clone, PartialEq)]
 pub(crate) enum Lexeme<'a> {
     Tag {
         name: &'a str,
-        args: Option<&'a str>,
+        args: Vec<&'a str>,
     },
     Text(&'a str),
     Error {
@@ -144,7 +159,10 @@ pub(crate) enum Token {
     #[token("}")]
     TagClose,
 
-    #[regex(r"(\{[^@]|[^{}])+")]
+    #[token("|")]
+    ArgSeparator,
+
+    #[regex(r"(\{[^@]|[^{}|])+")]
     Text,
 
     #[error]
@@ -187,7 +205,9 @@ mod tests {
             tokenize("{@spell fireball|phb}"),
             spanned(vec![
                 (Token::TagOpen, "{@"),
-                (Token::Text, "spell fireball|phb"),
+                (Token::Text, "spell fireball"),
+                (Token::ArgSeparator, "|"),
+                (Token::Text, "phb"),
                 (Token::TagClose, "}"),
             ]),
         );
@@ -200,7 +220,9 @@ mod tests {
             spanned(vec![
                 (Token::Text, "The tag "),
                 (Token::TagOpen, "{@"),
-                (Token::Text, "spell fireball|phb"),
+                (Token::Text, "spell fireball"),
+                (Token::ArgSeparator, "|"),
+                (Token::Text, "phb"),
                 (Token::TagClose, "}"),
                 (Token::Text, " describes the fireball spell")
             ]),
@@ -225,7 +247,7 @@ mod tests {
     fn lex_only_tag() {
         assert_eq!(
             lex("{@spell fireball|phb}"),
-            vec![Lexeme::Tag { name: "spell", args: Some("fireball|phb") }],
+            vec![Lexeme::Tag { name: "spell", args: vec!["fireball", "phb"] }],
         );
     }
 
@@ -235,7 +257,7 @@ mod tests {
             lex("The tag {@spell fireball|phb} describes the fireball spell"),
             vec![
                 Lexeme::Text("The tag "),
-                Lexeme::Tag { name: "spell", args: Some("fireball|phb") },
+                Lexeme::Tag { name: "spell", args: vec!["fireball", "phb"] },
                 Lexeme::Text(" describes the fireball spell"),
             ],
         );
@@ -246,8 +268,23 @@ mod tests {
         assert_eq!(
             lex("{@h} 5 (1d8+1) necrotic damage"),
             vec![
-                Lexeme::Tag { name: "h", args: None },
+                Lexeme::Tag { name: "h", args: vec![] },
                 Lexeme::Text(" 5 (1d8+1) necrotic damage"),
+            ],
+        );
+    }
+
+    #[test]
+    fn lex_tag_with_empty_args() {
+        assert_eq!(
+            lex("The {@class |fighter|phb||{@b eldritch knight}|||phb|} is a third-caster"),
+            vec![
+                Lexeme::Text("The "),
+                Lexeme::Tag {
+                    name: "class",
+                    args: vec!["", "fighter", "phb", "", "{@b eldritch knight}", "", "", "phb", ""],
+                },
+                Lexeme::Text(" is a third-caster"),
             ],
         );
     }
