@@ -8,14 +8,9 @@ pub(crate) struct Lexer<'a> {
 
 impl<'a> Lexer<'a> {
     pub fn new(source: &'a str) -> Self {
-        let inner = Token::lexer(source)
-            .spanned()
-            .peekable();
+        let inner = Token::lexer(source).spanned().peekable();
 
-        Self {
-            inner,
-            source,
-        }
+        Self { inner, source }
     }
 
     fn next(&mut self) -> Option<Lexeme<'a>> {
@@ -85,7 +80,7 @@ impl<'a> Lexer<'a> {
                 args.push("");
             }
         } else {
-            args.push(&self.source[last_arg_start..end-1]);
+            args.push(&self.source[last_arg_start..end - 1]);
         }
 
         Lexeme::Tag {
@@ -132,10 +127,7 @@ impl<'a> Iterator for Lexer<'a> {
 
 #[derive(Debug, Clone, PartialEq)]
 pub(crate) enum Lexeme<'a> {
-    Tag {
-        name: &'a str,
-        args: Vec<&'a str>,
-    },
+    Tag { name: &'a str, args: Vec<&'a str> },
     Text(&'a str),
     Error(LexErrorKind),
 }
@@ -171,9 +163,7 @@ mod tests {
     use std::ops::Range;
 
     fn tokenize(input: &str) -> Vec<(Token, Range<usize>)> {
-        Token::lexer(input)
-            .spanned()
-            .collect()
+        Token::lexer(input).spanned().collect()
     }
 
     fn spanned(tokens: Vec<(Token, &str)>) -> Vec<(Token, Range<usize>)> {
@@ -181,7 +171,7 @@ mod tests {
         let mut ret = Vec::new();
 
         for (token, slice) in tokens {
-            ret.push((token, offset..offset+slice.len()));
+            ret.push((token, offset..offset + slice.len()));
             offset += slice.len();
         }
         ret
@@ -226,9 +216,7 @@ mod tests {
     }
 
     fn lex(input: &str) -> Vec<Lexeme> {
-        Lexer::new(input)
-            .into_iter()
-            .collect()
+        Lexer::new(input).into_iter().collect()
     }
 
     #[test]
@@ -243,7 +231,10 @@ mod tests {
     fn lex_only_tag() {
         assert_eq!(
             lex("{@spell fireball|phb}"),
-            vec![Lexeme::Tag { name: "spell", args: vec!["fireball", "phb"] }],
+            vec![Lexeme::Tag {
+                name: "spell",
+                args: vec!["fireball", "phb"]
+            }],
         );
     }
 
@@ -253,7 +244,10 @@ mod tests {
             lex("The tag {@spell fireball|phb} describes the fireball spell"),
             vec![
                 Lexeme::Text("The tag "),
-                Lexeme::Tag { name: "spell", args: vec!["fireball", "phb"] },
+                Lexeme::Tag {
+                    name: "spell",
+                    args: vec!["fireball", "phb"]
+                },
                 Lexeme::Text(" describes the fireball spell"),
             ],
         );
@@ -264,7 +258,10 @@ mod tests {
         assert_eq!(
             lex("{@h} 5 (1d8+1) necrotic damage"),
             vec![
-                Lexeme::Tag { name: "h", args: vec![] },
+                Lexeme::Tag {
+                    name: "h",
+                    args: vec![]
+                },
                 Lexeme::Text(" 5 (1d8+1) necrotic damage"),
             ],
         );
@@ -278,7 +275,17 @@ mod tests {
                 Lexeme::Text("The "),
                 Lexeme::Tag {
                     name: "class",
-                    args: vec!["", "fighter", "phb", "", "{@b eldritch knight}", "", "", "phb", ""],
+                    args: vec![
+                        "",
+                        "fighter",
+                        "phb",
+                        "",
+                        "{@b eldritch knight}",
+                        "",
+                        "",
+                        "phb",
+                        ""
+                    ],
                 },
                 Lexeme::Text(" is a third-caster"),
             ],
