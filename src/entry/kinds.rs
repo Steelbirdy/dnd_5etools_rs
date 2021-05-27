@@ -1,6 +1,7 @@
 pub mod entries;
 pub mod homebrew;
 pub mod inline;
+pub mod options;
 pub mod quote;
 pub mod section;
 

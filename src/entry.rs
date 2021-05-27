@@ -41,4 +41,7 @@ pub enum EntryKind<'a> {
     Quote(quote::EntryQuote<'a>),
     Inline(inline::EntryInline<'a>),
     InlineBlock(inline::EntryInlineBlock<'a>),
+    /// Used to specify how many of the listed options can be chosen as e.g. permanent character features.
+    /// Leave blank for transient choices.
+    Options(options::EntryOptions<'a>),
 }
