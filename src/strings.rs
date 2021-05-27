@@ -4,6 +4,7 @@ mod render;
 pub mod tags;
 
 pub use error::Error;
+pub use lexer::{lex_string, LexErrorKind, Lexeme};
 pub use render::{DefaultStringRenderer, StringRenderer};
 
 pub type Result<T> = std::result::Result<T, Error>;

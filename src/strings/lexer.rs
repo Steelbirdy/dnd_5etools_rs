@@ -1,6 +1,12 @@
 use logos::{Logos, SpannedIter};
 use std::iter::Peekable;
 
+#[allow(dead_code)]
+#[inline]
+pub fn lex_string(source: &str) -> impl Iterator<Item = Lexeme<'_>> {
+    Lexer::new(source)
+}
+
 pub(crate) struct Lexer<'a> {
     inner: Peekable<SpannedIter<'a, Token>>,
     source: &'a str,
@@ -126,7 +132,7 @@ impl<'a> Iterator for Lexer<'a> {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub(crate) enum Lexeme<'a> {
+pub enum Lexeme<'a> {
     Tag { name: &'a str, args: Vec<&'a str> },
     Text(&'a str),
     Error(LexErrorKind),
