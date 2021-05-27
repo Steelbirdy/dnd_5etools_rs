@@ -1,4 +1,4 @@
-mod strings;
+mod string;
 
 #[cfg(test)]
 mod tests {
