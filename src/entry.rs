@@ -37,4 +37,5 @@ pub enum EntryKind<'a> {
     #[serde(borrow)]
     Section(section::EntrySection<'a>),
     Entries(entries::EntryEntries<'a>),
+    Homebrew(homebrew::EntryHomebrew<'a>),
 }

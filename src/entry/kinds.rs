@@ -1,4 +1,5 @@
 pub mod entries;
+pub mod homebrew;
 pub mod section;
 
 use super::*;
