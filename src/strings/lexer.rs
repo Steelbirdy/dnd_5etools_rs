@@ -118,9 +118,7 @@ impl<'a> Lexer<'a> {
     }
 
     fn error(&mut self, kind: LexErrorKind) -> Lexeme<'a> {
-        Lexeme::Error {
-            kind,
-        }
+        Lexeme::Error(kind)
     }
 }
 
@@ -139,13 +137,11 @@ pub(crate) enum Lexeme<'a> {
         args: Vec<&'a str>,
     },
     Text(&'a str),
-    Error {
-        kind: LexErrorKind,
-    },
+    Error(LexErrorKind),
 }
 
 #[derive(Debug, Copy, Clone, PartialEq)]
-pub(crate) enum LexErrorKind {
+pub enum LexErrorKind {
     NoTagName,
     UnclosedTag,
     UnexpectedToken,
