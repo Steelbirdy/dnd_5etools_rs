@@ -50,4 +50,5 @@ pub enum EntryKind<'a> {
     TableRow(table::EntryTableRow<'a>),
     #[serde(rename = "cell")]
     TableCell(table::EntryTableCell<'a>),
+    List(list::EntryList<'a>),
 }
