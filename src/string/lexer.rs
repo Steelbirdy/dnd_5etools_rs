@@ -1,12 +1,14 @@
 use logos::{Logos, SpannedIter};
 use std::iter::Peekable;
 
+/// Tokenize a string. This non-recursively separates tags within the string from raw text.
 #[allow(dead_code)]
 #[inline]
 pub fn lex_string(source: &str) -> impl Iterator<Item = Lexeme<'_>> {
     Lexer::new(source)
 }
 
+/// Wrapper around logos::Lexer<'a, Token>
 pub(crate) struct Lexer<'a> {
     inner: Peekable<SpannedIter<'a, Token>>,
     source: &'a str,
@@ -24,7 +26,7 @@ impl<'a> Lexer<'a> {
             Some(v) => v,
             None => return None,
         };
-
+        // TODO: Add an EscapedTagOpen token variant for "\{@"
         let ret = match token {
             Token::TagOpen => self.tag(),
             Token::TagClose | Token::ArgSeparator | Token::Text => self.text(span.start),
@@ -35,17 +37,20 @@ impl<'a> Lexer<'a> {
     }
 
     fn tag(&mut self) -> Lexeme<'a> {
+        // The span of the first token inside the tag. This will always span at least the tag's name.
         let first_span = match self.inner.next() {
             Some((Token::Text, span)) => span,
             Some(_) => return self.error(LexErrorKind::NoTagName),
             None => return self.error(LexErrorKind::UnclosedTag),
         };
 
+        // Split the token at the first space to get the tag's name.
         let tag_name = match self.source[first_span.clone()].split_once(' ') {
             Some((s, _)) => s,
             None => &self.source[first_span.clone()],
         };
 
+        // We need to match the correct pair of brackets to account for nested tags.
         let mut depth = 1usize;
         let args_start = first_span.start + tag_name.len() + 1;
         let mut last_arg_start = args_start;
@@ -59,7 +64,9 @@ impl<'a> Lexer<'a> {
             };
 
             match token {
+                // Entering a nested tag
                 Token::TagOpen => depth += 1,
+                // Leaving a tag
                 Token::TagClose => {
                     depth -= 1;
                     if depth == 0 {

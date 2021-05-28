@@ -8,10 +8,13 @@ pub use super::tags::TagErrorKind;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Error {
+    /// Errors that occur while lexing (tokenizing) the input string.
     LexError(LexErrorKind),
+    /// Errors that occur during rendering.
     RenderError(RenderErrorKind),
+    /// Errors that occur while parsing tags.
     TagError(TagErrorKind),
-
+    /// Any other error.
     Custom(String),
 }
 
