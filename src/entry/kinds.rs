@@ -1,3 +1,4 @@
+pub mod bonus;
 pub mod entries;
 pub mod homebrew;
 pub mod inline;

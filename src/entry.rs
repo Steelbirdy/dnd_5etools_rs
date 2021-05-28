@@ -51,4 +51,6 @@ pub enum EntryKind<'a> {
     #[serde(rename = "cell")]
     TableCell(table::EntryTableCell<'a>),
     List(list::EntryList<'a>),
+    Bonus(bonus::EntryBonus<'a>),
+    BonusSpeed(bonus::EntryBonusSpeed<'a>),
 }
