@@ -44,4 +44,10 @@ pub enum EntryKind<'a> {
     /// Used to specify how many of the listed options can be chosen as e.g. permanent character features.
     /// Leave blank for transient choices.
     Options(options::EntryOptions<'a>),
+    Table(table::EntryTable<'a>),
+    TableGroup(table::EntryTableGroup<'a>),
+    #[serde(rename = "row")]
+    TableRow(table::EntryTableRow<'a>),
+    #[serde(rename = "cell")]
+    TableCell(table::EntryTableCell<'a>),
 }
