@@ -4,6 +4,7 @@ pub mod dice;
 pub mod entries;
 pub mod homebrew;
 pub mod inline;
+pub mod link;
 pub mod list;
 pub mod options;
 pub mod quote;

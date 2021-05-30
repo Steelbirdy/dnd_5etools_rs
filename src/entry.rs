@@ -57,4 +57,5 @@ pub enum EntryKind<'a> {
     AbilityDc(ability::EntryAbilityDc<'a>),
     AbilityAttackMod(ability::EntryAbilityAttackMod<'a>),
     AbilityGeneric(ability::EntryAbilityGeneric<'a>),
+    Link(link::EntryLink<'a>),
 }
