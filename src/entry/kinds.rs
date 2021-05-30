@@ -1,3 +1,4 @@
+pub mod ability;
 pub mod bonus;
 pub mod dice;
 pub mod entries;

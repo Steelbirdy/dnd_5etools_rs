@@ -54,4 +54,7 @@ pub enum EntryKind<'a> {
     Bonus(bonus::EntryBonus<'a>),
     BonusSpeed(bonus::EntryBonusSpeed<'a>),
     Dice(dice::EntryDice<'a>),
+    AbilityDc(ability::EntryAbilityDc<'a>),
+    AbilityAttackMod(ability::EntryAbilityAttackMod<'a>),
+    AbilityGeneric(ability::EntryAbilityGeneric<'a>),
 }
