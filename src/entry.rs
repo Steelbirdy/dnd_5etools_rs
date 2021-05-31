@@ -63,6 +63,9 @@ pub enum EntryKind<'a> {
     OptFeature(opt_feature::EntryOptFeature<'a>),
     Inset(inset::EntryInset<'a>),
     InsetReadaloud(inset::EntryInsetReadaloud<'a>),
+    Variant(variant::EntryVariant<'a>),
+    VariantInner(variant::EntryVariantInner<'a>),
+    VariantSub(variant::EntryVariantSub<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {

@@ -12,6 +12,7 @@ pub mod options;
 pub mod quote;
 pub mod section;
 pub mod table;
+pub mod variant;
 
 use super::*;
 
