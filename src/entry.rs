@@ -59,6 +59,8 @@ pub enum EntryKind<'a> {
     AbilityAttackMod(ability::EntryAbilityAttackMod<'a>),
     AbilityGeneric(ability::EntryAbilityGeneric<'a>),
     Link(link::EntryLink<'a>),
+    #[serde(rename = "optfeature")]
+    OptFeature(opt_feature::EntryOptFeature<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {

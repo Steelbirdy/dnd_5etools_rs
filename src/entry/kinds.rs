@@ -6,6 +6,7 @@ pub mod homebrew;
 pub mod inline;
 pub mod link;
 pub mod list;
+pub mod opt_feature;
 pub mod options;
 pub mod quote;
 pub mod section;
