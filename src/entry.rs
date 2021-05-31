@@ -61,6 +61,8 @@ pub enum EntryKind<'a> {
     Link(link::EntryLink<'a>),
     #[serde(rename = "optfeature")]
     OptFeature(opt_feature::EntryOptFeature<'a>),
+    Inset(inset::EntryInset<'a>),
+    InsetReadaloud(inset::EntryInsetReadaloud<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {
