@@ -5,6 +5,7 @@ pub mod entries;
 pub mod homebrew;
 pub mod inline;
 pub mod inset;
+pub mod item;
 pub mod link;
 pub mod list;
 pub mod opt_feature;

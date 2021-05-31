@@ -66,6 +66,9 @@ pub enum EntryKind<'a> {
     Variant(variant::EntryVariant<'a>),
     VariantInner(variant::EntryVariantInner<'a>),
     VariantSub(variant::EntryVariantSub<'a>),
+    Item(item::EntryItem<'a>),
+    ItemSub(item::EntryItemSub<'a>),
+    ItemSpell(item::EntryItemSpell<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {
