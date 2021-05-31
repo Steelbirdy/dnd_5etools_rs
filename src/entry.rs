@@ -25,6 +25,7 @@ pub struct EntryBase<'a> {
 pub enum Entry<'a> {
     Entry(EntryKind<'a>),
     String(&'a str),
+    // Not really sure why this is a thing, but it is in the schema...
     Integer(i64),
 }
 
@@ -58,4 +59,22 @@ pub enum EntryKind<'a> {
     AbilityAttackMod(ability::EntryAbilityAttackMod<'a>),
     AbilityGeneric(ability::EntryAbilityGeneric<'a>),
     Link(link::EntryLink<'a>),
+}
+
+impl<'a> From<EntryKind<'a>> for Entry<'a> {
+    fn from(value: EntryKind<'a>) -> Self {
+        Self::Entry(value)
+    }
+}
+
+impl From<i64> for Entry<'_> {
+    fn from(value: i64) -> Self {
+        Self::Integer(value)
+    }
+}
+
+impl<'a> From<&'a str> for Entry<'a> {
+    fn from(value: &'a str) -> Self {
+        Self::String(value)
+    }
 }
