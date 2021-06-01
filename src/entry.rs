@@ -79,6 +79,11 @@ pub enum EntryKind<'a> {
     Flowchart(flow::EntryFlowchart<'a>),
     FlowBlock(flow::EntryFlowBlock<'a>),
     Ingredient(ingredient::EntryIngredient<'a>),
+    DataCreature(data::EntryDataCreature<'a>),
+    DataSpell(data::EntryDataSpell<'a>),
+    DataTrapHazard(data::EntryDataTrapHazard<'a>),
+    DataObject(data::EntryDataObject<'a>),
+    DataItem(data::EntryDataItem<'a>),
 }
 
 impl<'a, T> From<T> for Entry<'a>

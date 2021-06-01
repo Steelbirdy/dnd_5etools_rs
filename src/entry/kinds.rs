@@ -2,6 +2,7 @@ pub mod ability;
 pub mod actions;
 pub mod attack;
 pub mod bonus;
+pub mod data;
 pub mod dice;
 pub mod entries;
 pub mod flow;
