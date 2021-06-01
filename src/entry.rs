@@ -75,6 +75,7 @@ pub enum EntryKind<'a> {
     Image(image::EntryImage<'a>),
     Gallery(image::EntryGallery<'a>),
     Actions(actions::EntryActions<'a>),
+    Attack(attack::EntryAttack<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {
