@@ -1,4 +1,5 @@
 pub mod ability;
+pub mod actions;
 pub mod bonus;
 pub mod dice;
 pub mod entries;

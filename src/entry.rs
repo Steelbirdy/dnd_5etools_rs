@@ -74,6 +74,7 @@ pub enum EntryKind<'a> {
     ItemSpell(item::EntryItemSpell<'a>),
     Image(image::EntryImage<'a>),
     Gallery(image::EntryGallery<'a>),
+    Actions(actions::EntryActions<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {
