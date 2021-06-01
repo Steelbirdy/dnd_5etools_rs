@@ -84,6 +84,10 @@ pub enum EntryKind<'a> {
     DataTrapHazard(data::EntryDataTrapHazard<'a>),
     DataObject(data::EntryDataObject<'a>),
     DataItem(data::EntryDataItem<'a>),
+    RefClassFeature(refs::EntryRefClassFeature<'a>),
+    RefSubclassFeature(refs::EntryRefSubclassFeature<'a>),
+    #[serde(rename = "refOptionalfeature")]
+    RefOptionalFeature(refs::EntryRefOptionalFeature<'a>),
 }
 
 impl<'a, T> From<T> for Entry<'a>

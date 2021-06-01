@@ -17,6 +17,7 @@ pub mod list;
 pub mod opt_feature;
 pub mod options;
 pub mod quote;
+pub mod refs;
 pub mod section;
 pub mod table;
 pub mod variant;
