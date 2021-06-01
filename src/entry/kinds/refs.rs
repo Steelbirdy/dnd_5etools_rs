@@ -1,6 +1,4 @@
 use super::*;
-use serde::{Deserialize, Serialize};
-use serde_with::skip_serializing_none;
 
 /// For use in classes page content only.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
