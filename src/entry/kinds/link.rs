@@ -16,9 +16,9 @@ pub struct EntryLink<'a> {
     pub href: EntryLinkHref<'a>,
 }
 
-impl<'a> From<EntryLink<'a>> for Entry<'a> {
+impl<'a> From<EntryLink<'a>> for EntryKind<'a> {
     fn from(value: EntryLink<'a>) -> Self {
-        Entry::Entry(EntryKind::Link(value))
+        EntryKind::Link(value)
     }
 }
 

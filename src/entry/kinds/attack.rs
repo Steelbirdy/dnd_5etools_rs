@@ -10,9 +10,9 @@ pub struct EntryAttack<'a> {
     pub hit_entries: Entries<'a>,
 }
 
-impl<'a> From<EntryAttack<'a>> for Entry<'a> {
+impl<'a> From<EntryAttack<'a>> for EntryKind<'a> {
     fn from(value: EntryAttack<'a>) -> Self {
-        Entry::Entry(EntryKind::Attack(value))
+        EntryKind::Attack(value)
     }
 }
 
@@ -46,7 +46,8 @@ mod tests {
             attack_type: EntryAttackType::MW,
             attack_entries: vec!["+7 to hit, one target".into()],
             hit_entries: vec!["10d4 radiant damage".into()],
-        }.into();
+        }
+        .into();
 
         check_serde(json, object);
     }

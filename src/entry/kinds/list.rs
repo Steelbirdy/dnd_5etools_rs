@@ -15,9 +15,9 @@ pub struct EntryList<'a> {
     pub items: Entries<'a>,
 }
 
-impl<'a> From<EntryList<'a>> for Entry<'a> {
+impl<'a> From<EntryList<'a>> for EntryKind<'a> {
     fn from(value: EntryList<'a>) -> Self {
-        Entry::Entry(EntryKind::List(value))
+        EntryKind::List(value)
     }
 }
 
@@ -38,15 +38,13 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::List(EntryList {
-            base: base(None),
+        let object: Entry = EntryList {
+            base: Default::default(),
             columns: Some(1),
             style: Some("list-nohang"),
-            items: vec![
-                Entry::String("Hello, world!"),
-                Entry::String("Never gonna give you up"),
-            ],
-        }));
+            items: vec!["Hello, world!".into(), "Never gonna give you up".into()],
+        }
+        .into();
 
         check_serde(json, object);
     }

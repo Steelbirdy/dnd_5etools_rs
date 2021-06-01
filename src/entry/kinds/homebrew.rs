@@ -13,9 +13,9 @@ pub struct EntryHomebrew<'a> {
     pub old_entries: Option<Entries<'a>>,
 }
 
-impl<'a> From<EntryHomebrew<'a>> for Entry<'a> {
+impl<'a> From<EntryHomebrew<'a>> for EntryKind<'a> {
     fn from(value: EntryHomebrew<'a>) -> Self {
-        Entry::Entry(EntryKind::Homebrew(value))
+        EntryKind::Homebrew(value)
     }
 }
 
@@ -40,18 +40,18 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::Homebrew(EntryHomebrew {
+        let object: Entry = EntryHomebrew {
             base: base(Some("Running the Game")),
             entries: Some(vec![
-                Entry::String("Rules enable you and your players to have fun at the table. The rules serve you, not vice versa..."),
-                Entry::String("There are the rules of the game, and there are table rules for how the game is played."),
+                "Rules enable you and your players to have fun at the table. The rules serve you, not vice versa...".into(),
+                "There are the rules of the game, and there are table rules for how the game is played.".into(),
             ]),
-            moved_to: Some(Box::new(Entry::String("Nowhere"))),
+            moved_to: Some(Box::new("Nowhere".into())),
             old_entries: Some(vec![
-                Entry::String("Never gonna give you up"),
-                Entry::String("Never gonna let you down"),
+                "Never gonna give you up".into(),
+                "Never gonna let you down".into(),
             ]),
-        }));
+        }.into();
 
         check_serde(json, object);
     }

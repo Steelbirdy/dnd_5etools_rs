@@ -14,9 +14,9 @@ pub struct EntryOptions<'a> {
     pub entries: Entries<'a>,
 }
 
-impl<'a> From<EntryOptions<'a>> for Entry<'a> {
+impl<'a> From<EntryOptions<'a>> for EntryKind<'a> {
     fn from(value: EntryOptions<'a>) -> Self {
-        Entry::Entry(EntryKind::Options(value))
+        EntryKind::Options(value)
     }
 }
 
@@ -38,12 +38,13 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::Options(EntryOptions {
+        let object: Entry = EntryOptions {
             base: base(Some("Example Options")),
             count: Some(3),
             style: Some("example-style"),
-            entries: vec![Entry::String("Hello"), Entry::String("World")],
-        }));
+            entries: vec!["Hello".into(), "World".into()],
+        }
+        .into();
 
         check_serde(json, object);
     }

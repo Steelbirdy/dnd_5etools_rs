@@ -34,15 +34,15 @@ pub struct EntryGallery<'a> {
     pub images: Vec<EntryImage<'a>>,
 }
 
-impl<'a> From<EntryImage<'a>> for Entry<'a> {
+impl<'a> From<EntryImage<'a>> for EntryKind<'a> {
     fn from(value: EntryImage<'a>) -> Self {
-        Entry::Entry(EntryKind::Image(value))
+        EntryKind::Image(value)
     }
 }
 
-impl<'a> From<EntryGallery<'a>> for Entry<'a> {
+impl<'a> From<EntryGallery<'a>> for EntryKind<'a> {
     fn from(value: EntryGallery<'a>) -> Self {
-        Entry::Entry(EntryKind::Gallery(value))
+        EntryKind::Gallery(value)
     }
 }
 

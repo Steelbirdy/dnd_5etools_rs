@@ -11,9 +11,9 @@ pub struct EntryEntries<'a> {
     pub entries: Entries<'a>,
 }
 
-impl<'a> From<EntryEntries<'a>> for Entry<'a> {
+impl<'a> From<EntryEntries<'a>> for EntryKind<'a> {
     fn from(value: EntryEntries<'a>) -> Self {
-        Entry::Entry(EntryKind::Entries(value))
+        EntryKind::Entries(value)
     }
 }
 
@@ -33,14 +33,14 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::Entries(EntryEntries {
+        let object: Entry = EntryEntries {
             base: base(Some("Running the Game")),
             alias: None,
             entries: vec![
                 Entry::String("Rules enable you and your players to have fun at the table. The rules serve you, not vice versa..."),
                 Entry::String("There are the rules of the game, and there are table rules for how the game is played."),
             ],
-        }));
+        }.into();
 
         check_serde(json, object);
     }

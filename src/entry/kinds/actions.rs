@@ -8,9 +8,9 @@ pub struct EntryActions<'a> {
     pub entries: Entries<'a>,
 }
 
-impl<'a> From<EntryActions<'a>> for Entry<'a> {
+impl<'a> From<EntryActions<'a>> for EntryKind<'a> {
     fn from(value: EntryActions<'a>) -> Self {
-        Entry::Entry(EntryKind::Actions(value))
+        EntryKind::Actions(value)
     }
 }
 
@@ -32,10 +32,9 @@ mod tests {
         let object: Entry = EntryActions {
             base: Default::default(),
             name: "Claw",
-            entries: vec![
-                "Description of the claw attack".into(),
-            ],
-        }.into();
+            entries: vec!["Description of the claw attack".into()],
+        }
+        .into();
 
         check_serde(json, object);
     }

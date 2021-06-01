@@ -27,21 +27,21 @@ pub struct EntryVariantSub<'a> {
     pub entries: Entries<'a>,
 }
 
-impl<'a> From<EntryVariant<'a>> for Entry<'a> {
+impl<'a> From<EntryVariant<'a>> for EntryKind<'a> {
     fn from(value: EntryVariant<'a>) -> Self {
-        Entry::Entry(EntryKind::Variant(value))
+        EntryKind::Variant(value)
     }
 }
 
-impl<'a> From<EntryVariantInner<'a>> for Entry<'a> {
+impl<'a> From<EntryVariantInner<'a>> for EntryKind<'a> {
     fn from(value: EntryVariantInner<'a>) -> Self {
-        Entry::Entry(EntryKind::VariantInner(value))
+        EntryKind::VariantInner(value)
     }
 }
 
-impl<'a> From<EntryVariantSub<'a>> for Entry<'a> {
+impl<'a> From<EntryVariantSub<'a>> for EntryKind<'a> {
     fn from(value: EntryVariantSub<'a>) -> Self {
-        Entry::Entry(EntryKind::VariantSub(value))
+        EntryKind::VariantSub(value)
     }
 }
 

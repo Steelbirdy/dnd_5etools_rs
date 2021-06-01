@@ -18,15 +18,15 @@ pub struct EntryInsetReadaloud<'a> {
     pub style: Option<&'a str>,
 }
 
-impl<'a> From<EntryInset<'a>> for Entry<'a> {
+impl<'a> From<EntryInset<'a>> for EntryKind<'a> {
     fn from(value: EntryInset<'a>) -> Self {
-        Entry::Entry(EntryKind::Inset(value))
+        EntryKind::Inset(value)
     }
 }
 
-impl<'a> From<EntryInsetReadaloud<'a>> for Entry<'a> {
+impl<'a> From<EntryInsetReadaloud<'a>> for EntryKind<'a> {
     fn from(value: EntryInsetReadaloud<'a>) -> Self {
-        Entry::Entry(EntryKind::InsetReadaloud(value))
+        EntryKind::InsetReadaloud(value)
     }
 }
 

@@ -16,9 +16,9 @@ pub struct EntryQuote<'a> {
     pub skip_marks: Option<bool>,
 }
 
-impl<'a> From<EntryQuote<'a>> for Entry<'a> {
+impl<'a> From<EntryQuote<'a>> for EntryKind<'a> {
     fn from(value: EntryQuote<'a>) -> Self {
-        Entry::Entry(EntryKind::Quote(value))
+        EntryKind::Quote(value)
     }
 }
 
@@ -41,16 +41,16 @@ mod tests {
   "skipMarks": true
 }"#;
 
-        let object = Entry::Entry(EntryKind::Quote(EntryQuote {
+        let object: Entry = EntryQuote {
             base: base(Some("Running the Game")),
             entries: vec![
-                Entry::String("Rules enable you and your players to have fun at the table. The rules serve you, not vice versa..."),
-                Entry::String("There are the rules of the game, and there are table rules for how the game is played."),
+                "Rules enable you and your players to have fun at the table. The rules serve you, not vice versa...".into(),
+                "There are the rules of the game, and there are table rules for how the game is played.".into(),
             ],
             by: Some("Korfel Nailo"),
             from: Some("The Book of Many Names"),
             skip_marks: Some(true),
-        }));
+        }.into();
 
         check_serde(json, object);
     }

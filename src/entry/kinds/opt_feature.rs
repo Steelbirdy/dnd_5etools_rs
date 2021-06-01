@@ -12,9 +12,9 @@ pub struct EntryOptFeature<'a> {
     pub entries: Option<Entries<'a>>,
 }
 
-impl<'a> From<EntryOptFeature<'a>> for Entry<'a> {
+impl<'a> From<EntryOptFeature<'a>> for EntryKind<'a> {
     fn from(value: EntryOptFeature<'a>) -> Self {
-        Entry::Entry(EntryKind::OptFeature(value))
+        EntryKind::OptFeature(value)
     }
 }
 
@@ -35,12 +35,12 @@ mod tests {
 }"#;
 
         let object: Entry = EntryOptFeature {
-            base: base(None),
+            base: Default::default(),
             name: "Optional Feature Name",
             prerequisite: Some(
                 "Optional prerequisite, which can include tags {@spell eldritch blast}",
             ),
-            entries: Some(vec![Entry::String("Optional feature text")]),
+            entries: Some(vec!["Optional feature text".into()]),
         }
         .into();
 

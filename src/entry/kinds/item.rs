@@ -27,21 +27,21 @@ pub struct EntryItemSpell<'a> {
     pub entry: Box<Entry<'a>>,
 }
 
-impl<'a> From<EntryItem<'a>> for Entry<'a> {
+impl<'a> From<EntryItem<'a>> for EntryKind<'a> {
     fn from(value: EntryItem<'a>) -> Self {
-        Entry::Entry(EntryKind::Item(value))
+        EntryKind::Item(value)
     }
 }
 
-impl<'a> From<EntryItemSub<'a>> for Entry<'a> {
+impl<'a> From<EntryItemSub<'a>> for EntryKind<'a> {
     fn from(value: EntryItemSub<'a>) -> Self {
-        Entry::Entry(EntryKind::ItemSub(value))
+        EntryKind::ItemSub(value)
     }
 }
 
-impl<'a> From<EntryItemSpell<'a>> for Entry<'a> {
+impl<'a> From<EntryItemSpell<'a>> for EntryKind<'a> {
     fn from(value: EntryItemSpell<'a>) -> Self {
-        Entry::Entry(EntryKind::ItemSpell(value))
+        EntryKind::ItemSpell(value)
     }
 }
 

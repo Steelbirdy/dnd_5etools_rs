@@ -17,15 +17,15 @@ pub struct EntryFlowBlock<'a> {
     pub entries: Option<Entries<'a>>,
 }
 
-impl<'a> From<EntryFlowchart<'a>> for Entry<'a> {
+impl<'a> From<EntryFlowchart<'a>> for EntryKind<'a> {
     fn from(value: EntryFlowchart<'a>) -> Self {
-        Entry::Entry(EntryKind::Flowchart(value))
+        EntryKind::Flowchart(value)
     }
 }
 
-impl<'a> From<EntryFlowBlock<'a>> for Entry<'a> {
+impl<'a> From<EntryFlowBlock<'a>> for EntryKind<'a> {
     fn from(value: EntryFlowBlock<'a>) -> Self {
-        Entry::Entry(EntryKind::FlowBlock(value))
+        EntryKind::FlowBlock(value)
     }
 }
 
@@ -61,20 +61,16 @@ mod tests {
             blocks: vec![
                 EntryKind::FlowBlock(EntryFlowBlock {
                     base: base(Some("Chapter 1: The Unicorn and the Hags")),
-                    entries: Some(vec![
-                        "Chapter 1 summary".into(),
-                    ]),
+                    entries: Some(vec!["Chapter 1 summary".into()]),
                 }),
                 EntryKind::FlowBlock(EntryFlowBlock {
                     base: base(Some("Chapter 2: An Invitation Extended")),
-                    entries: Some(vec![
-                        "Chapter 2 summary".into(),
-                    ]),
+                    entries: Some(vec!["Chapter 2 summary".into()]),
                 }),
             ],
-        }.into();
+        }
+        .into();
 
         check_serde(json, object);
     }
 }
-

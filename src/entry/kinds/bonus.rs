@@ -15,15 +15,15 @@ pub struct EntryBonusSpeed<'a> {
     pub value: i64,
 }
 
-impl<'a> From<EntryBonus<'a>> for Entry<'a> {
+impl<'a> From<EntryBonus<'a>> for EntryKind<'a> {
     fn from(value: EntryBonus<'a>) -> Self {
-        Entry::Entry(EntryKind::Bonus(value))
+        EntryKind::Bonus(value)
     }
 }
 
-impl<'a> From<EntryBonusSpeed<'a>> for Entry<'a> {
+impl<'a> From<EntryBonusSpeed<'a>> for EntryKind<'a> {
     fn from(value: EntryBonusSpeed<'a>) -> Self {
-        Entry::Entry(EntryKind::BonusSpeed(value))
+        EntryKind::BonusSpeed(value)
     }
 }
 
@@ -39,10 +39,11 @@ mod tests {
   "value": 5
 }"#;
 
-        let object = Entry::Entry(EntryKind::Bonus(EntryBonus {
-            base: base(None),
+        let object: Entry = EntryBonus {
+            base: Default::default(),
             value: 5,
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }
@@ -54,10 +55,11 @@ mod tests {
   "value": 5
 }"#;
 
-        let object = Entry::Entry(EntryKind::BonusSpeed(EntryBonusSpeed {
-            base: base(None),
+        let object: Entry = EntryBonusSpeed {
+            base: Default::default(),
             value: 5,
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }

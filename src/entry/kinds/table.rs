@@ -32,8 +32,18 @@ pub struct EntryTable<'a> {
 pub struct EntryTableGroup<'a> {
     #[serde(borrow, flatten)]
     pub base: EntryBase<'a>,
-    /// Vec<Entry::Entry(EntryKind::Table)>
     pub tables: Option<Entries<'a>>,
+}
+
+impl<'a> From<Vec<EntryTable<'a>>> for EntryTableGroup<'a> {
+    fn from(tables: Vec<EntryTable<'a>>) -> Self {
+        let tables = tables.into_iter().map(Entry::from).collect();
+
+        Self {
+            base: Default::default(),
+            tables: Some(tables),
+        }
+    }
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -46,8 +56,20 @@ pub enum EntryTableRowKind<'a> {
 
 impl<'a> EntryTableRowKind<'a> {
     #[allow(non_snake_case, dead_code)]
-    pub fn Row(row: EntryTableRow<'a>) -> Self {
+    fn Row(row: EntryTableRow<'a>) -> Self {
         Self::__Row(Box::new(row.into()))
+    }
+}
+
+impl<'a> From<Entries<'a>> for EntryTableRowKind<'a> {
+    fn from(value: Entries<'a>) -> Self {
+        Self::Entries(value)
+    }
+}
+
+impl<'a> From<EntryTableRow<'a>> for EntryTableRowKind<'a> {
+    fn from(value: EntryTableRow<'a>) -> Self {
+        Self::Row(value)
     }
 }
 
@@ -70,27 +92,27 @@ pub struct EntryTableCell<'a> {
     pub entry: Option<Box<Entry<'a>>>,
 }
 
-impl<'a> From<EntryTable<'a>> for Entry<'a> {
+impl<'a> From<EntryTable<'a>> for EntryKind<'a> {
     fn from(value: EntryTable<'a>) -> Self {
-        Entry::Entry(EntryKind::Table(value))
+        EntryKind::Table(value)
     }
 }
 
-impl<'a> From<EntryTableGroup<'a>> for Entry<'a> {
+impl<'a> From<EntryTableGroup<'a>> for EntryKind<'a> {
     fn from(value: EntryTableGroup<'a>) -> Self {
-        Entry::Entry(EntryKind::TableGroup(value))
+        EntryKind::TableGroup(value)
     }
 }
 
-impl<'a> From<EntryTableRow<'a>> for Entry<'a> {
+impl<'a> From<EntryTableRow<'a>> for EntryKind<'a> {
     fn from(value: EntryTableRow<'a>) -> Self {
-        Entry::Entry(EntryKind::TableRow(value))
+        EntryKind::TableRow(value)
     }
 }
 
-impl<'a> From<EntryTableCell<'a>> for Entry<'a> {
+impl<'a> From<EntryTableCell<'a>> for EntryKind<'a> {
     fn from(value: EntryTableCell<'a>) -> Self {
-        Entry::Entry(EntryKind::TableCell(value))
+        EntryKind::TableCell(value)
     }
 }
 
@@ -150,8 +172,8 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::Table(EntryTable {
-            base: base(None),
+        let object: Entry = EntryTable {
+            base: Default::default(),
             caption: Some("Demons Summoned"),
             intro: None,
             outro: None,
@@ -163,7 +185,7 @@ mod tests {
             row_labels: None,
             row_styles: None,
             rows: vec![
-                EntryTableRowKind::Entries(vec![
+                vec![
                     EntryTableCell {
                         base: Default::default(),
                         width: Some(3),
@@ -175,23 +197,27 @@ mod tests {
                         entry: None,
                     }
                     .into(),
-                    Entry::String("Two demons of challenge rating 1 or lower"),
-                ]),
-                EntryTableRowKind::Entries(vec![
-                    Entry::String("3-4"),
-                    Entry::String("Four demons of challenge rating 1/2 or lower"),
-                ]),
-                EntryTableRowKind::Row(EntryTableRow {
-                    base: base(None),
+                    "Two demons of challenge rating 1 or lower".into(),
+                ]
+                .into(),
+                vec![
+                    "3-4".into(),
+                    "Four demons of challenge rating 1/2 or lower".into(),
+                ]
+                .into(),
+                EntryTableRow {
+                    base: Default::default(),
                     style: None,
                     row: vec![
-                        Entry::String("5-6"),
-                        Entry::String("Eight demons of challenge rating 1/4 or lower"),
+                        "5-6".into(),
+                        "Eight demons of challenge rating 1/4 or lower".into(),
                     ],
-                }),
+                }
+                .into(),
             ],
             footnotes: None,
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }

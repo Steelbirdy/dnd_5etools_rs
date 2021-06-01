@@ -2,17 +2,17 @@ use super::*;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityDc<'a> {
-    pub name: &'a str,
     #[serde(borrow, flatten)]
     pub base: EntryBase<'a>,
+    pub name: &'a str,
     pub attributes: Vec<EntryAbilityAttribute>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityAttackMod<'a> {
-    pub name: &'a str,
     #[serde(borrow, flatten)]
     pub base: EntryBase<'a>,
+    pub name: &'a str,
     pub attributes: Vec<EntryAbilityAttribute>,
 }
 
@@ -25,21 +25,21 @@ pub struct EntryAbilityGeneric<'a> {
     pub attributes: Option<Vec<EntryAbilityAttribute>>,
 }
 
-impl<'a> From<EntryAbilityDc<'a>> for Entry<'a> {
+impl<'a> From<EntryAbilityDc<'a>> for EntryKind<'a> {
     fn from(value: EntryAbilityDc<'a>) -> Self {
-        Entry::Entry(EntryKind::AbilityDc(value))
+        EntryKind::AbilityDc(value)
     }
 }
 
-impl<'a> From<EntryAbilityAttackMod<'a>> for Entry<'a> {
+impl<'a> From<EntryAbilityAttackMod<'a>> for EntryKind<'a> {
     fn from(value: EntryAbilityAttackMod<'a>) -> Self {
-        Entry::Entry(EntryKind::AbilityAttackMod(value))
+        EntryKind::AbilityAttackMod(value)
     }
 }
 
-impl<'a> From<EntryAbilityGeneric<'a>> for Entry<'a> {
+impl<'a> From<EntryAbilityGeneric<'a>> for EntryKind<'a> {
     fn from(value: EntryAbilityGeneric<'a>) -> Self {
-        Entry::Entry(EntryKind::AbilityGeneric(value))
+        EntryKind::AbilityGeneric(value)
     }
 }
 
@@ -77,14 +77,15 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::AbilityDc(EntryAbilityDc {
+        let object: Entry = EntryAbilityDc {
+            base: Default::default(),
             name: "Spell Save DC",
-            base: base(None),
             attributes: vec![
                 EntryAbilityAttribute::Spellcasting,
                 EntryAbilityAttribute::Intelligence,
             ],
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }
@@ -101,15 +102,16 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::AbilityAttackMod(EntryAbilityAttackMod {
+        let object: Entry = EntryAbilityAttackMod {
+            base: Default::default(),
             name: "Spell Attack Modifier",
-            base: base(None),
             attributes: vec![
                 EntryAbilityAttribute::Intelligence,
                 EntryAbilityAttribute::Charisma,
                 EntryAbilityAttribute::Dexterity,
             ],
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }
@@ -122,11 +124,12 @@ mod tests {
   "text": "8 + your intelligence modifier"
 }"#;
 
-        let object = Entry::Entry(EntryKind::AbilityGeneric(EntryAbilityGeneric {
+        let object: Entry = EntryAbilityGeneric {
             base: base(Some("Artificer Infusion DC")),
             text: "8 + your intelligence modifier",
             attributes: None,
-        }));
+        }
+        .into();
 
         check_serde(json, object);
     }

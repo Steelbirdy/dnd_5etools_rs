@@ -15,15 +15,15 @@ pub struct EntryInlineBlock<'a> {
     pub entries: Entries<'a>,
 }
 
-impl<'a> From<EntryInline<'a>> for Entry<'a> {
+impl<'a> From<EntryInline<'a>> for EntryKind<'a> {
     fn from(value: EntryInline<'a>) -> Self {
-        Entry::Entry(EntryKind::Inline(value))
+        EntryKind::Inline(value)
     }
 }
 
-impl<'a> From<EntryInlineBlock<'a>> for Entry<'a> {
+impl<'a> From<EntryInlineBlock<'a>> for EntryKind<'a> {
     fn from(value: EntryInlineBlock<'a>) -> Self {
-        Entry::Entry(EntryKind::InlineBlock(value))
+        EntryKind::InlineBlock(value)
     }
 }
 
@@ -43,13 +43,13 @@ mod tests {
   ]
 }"#;
 
-        let object = Entry::Entry(EntryKind::Inline(EntryInline {
+        let object: Entry = EntryInline {
             base: base(Some("Running the Game")),
             entries: vec![
-                Entry::String("Rules enable you and your players to have fun at the table. The rules serve you, not vice versa..."),
-                Entry::String("There are the rules of the game, and there are table rules for how the game is played."),
+                "Rules enable you and your players to have fun at the table. The rules serve you, not vice versa...".into(),
+                "There are the rules of the game, and there are table rules for how the game is played.".into(),
             ],
-        }));
+        }.into();
 
         check_serde(json, object);
     }

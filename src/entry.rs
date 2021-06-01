@@ -80,9 +80,13 @@ pub enum EntryKind<'a> {
     FlowBlock(flow::EntryFlowBlock<'a>),
 }
 
-impl<'a> From<EntryKind<'a>> for Entry<'a> {
-    fn from(value: EntryKind<'a>) -> Self {
-        Self::Entry(value)
+impl<'a, T> From<T> for Entry<'a>
+where
+    EntryKind<'a>: From<T>,
+{
+    fn from(value: T) -> Self {
+        let kind = EntryKind::from(value);
+        Self::Entry(kind)
     }
 }
 
