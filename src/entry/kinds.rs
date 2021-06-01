@@ -4,6 +4,7 @@ pub mod attack;
 pub mod bonus;
 pub mod dice;
 pub mod entries;
+pub mod flow;
 pub mod homebrew;
 pub mod image;
 pub mod inline;
