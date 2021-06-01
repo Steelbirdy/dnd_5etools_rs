@@ -78,6 +78,7 @@ pub enum EntryKind<'a> {
     Attack(attack::EntryAttack<'a>),
     Flowchart(flow::EntryFlowchart<'a>),
     FlowBlock(flow::EntryFlowBlock<'a>),
+    Ingredient(ingredient::EntryIngredient<'a>),
 }
 
 impl<'a, T> From<T> for Entry<'a>
