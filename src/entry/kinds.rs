@@ -3,6 +3,7 @@ pub mod bonus;
 pub mod dice;
 pub mod entries;
 pub mod homebrew;
+pub mod image;
 pub mod inline;
 pub mod inset;
 pub mod item;

@@ -1,6 +1,9 @@
 mod error;
 pub mod kinds;
 mod render;
+mod util;
+
+pub use util::*;
 
 use kinds::*;
 
@@ -69,6 +72,8 @@ pub enum EntryKind<'a> {
     Item(item::EntryItem<'a>),
     ItemSub(item::EntryItemSub<'a>),
     ItemSpell(item::EntryItemSpell<'a>),
+    Image(image::EntryImage<'a>),
+    Gallery(image::EntryGallery<'a>),
 }
 
 impl<'a> From<EntryKind<'a>> for Entry<'a> {
