@@ -7,6 +7,7 @@ pub mod dice;
 pub mod entries;
 pub mod flow;
 pub mod homebrew;
+pub mod hr;
 pub mod image;
 pub mod ingredient;
 pub mod inline;

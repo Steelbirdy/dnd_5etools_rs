@@ -88,6 +88,7 @@ pub enum EntryKind<'a> {
     RefSubclassFeature(refs::EntryRefSubclassFeature<'a>),
     #[serde(rename = "refOptionalfeature")]
     RefOptionalFeature(refs::EntryRefOptionalFeature<'a>),
+    Hr(hr::EntryHr),
 }
 
 impl<'a, T> From<T> for Entry<'a>
