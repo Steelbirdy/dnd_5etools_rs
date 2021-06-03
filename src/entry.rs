@@ -89,6 +89,7 @@ pub enum EntryKind<'a> {
     #[serde(rename = "refOptionalfeature")]
     RefOptionalFeature(refs::EntryRefOptionalFeature<'a>),
     Hr(hr::EntryHr),
+    Spellcasting(spellcasting::EntrySpellcasting<'a>),
 }
 
 impl<'a, T> From<T> for Entry<'a>

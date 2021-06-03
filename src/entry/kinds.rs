@@ -20,6 +20,7 @@ pub mod options;
 pub mod quote;
 pub mod refs;
 pub mod section;
+pub mod spellcasting;
 pub mod table;
 pub mod variant;
 

@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use super::*;
 
 /// For use in classes page content only.
