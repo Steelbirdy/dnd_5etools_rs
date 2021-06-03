@@ -1,4 +1,5 @@
 use super::*;
+use crate::util::ability::Ability;
 use serde::ser::SerializeMap;
 use serde::Serializer;
 use serde_json::Number;
@@ -25,7 +26,7 @@ pub struct EntrySpellcasting<'a> {
     /// Useful if e.g. a creature can only cast one spell, and this is rendered in the header line.
     pub hidden: Option<Vec<EntrySpellcastingProperty>>,
     pub footer_entries: Option<Entries<'a>>,
-    pub ability: Option<EntrySpellcastingAbility>,
+    pub ability: Option<Ability>,
     /// Defaults to ["trait"]
     #[serde(default)]
     pub display_as: EntrySpellcastingDisplayAs,
@@ -84,17 +85,6 @@ pub enum EntrySpellcastingProperty {
     Weekly,
     Ritual,
     Spells,
-}
-
-#[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "lowercase")]
-pub enum EntrySpellcastingAbility {
-    Str,
-    Dex,
-    Con,
-    Int,
-    Wis,
-    Cha,
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Serialize, Deserialize)]
@@ -273,7 +263,7 @@ mod tests {
             spells: None,
             hidden: None,
             footer_entries: None,
-            ability: Some(EntrySpellcastingAbility::Cha),
+            ability: Some(Ability::Charisma),
             display_as: Default::default(),
         };
 

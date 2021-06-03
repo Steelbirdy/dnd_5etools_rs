@@ -1,4 +1,6 @@
 use super::*;
+use crate::util::ability::Ability;
+use std::convert::TryFrom;
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityDc<'a> {
@@ -59,6 +61,41 @@ pub enum EntryAbilityAttribute {
     Charisma,
     #[serde(rename = "spellcasting")]
     Spellcasting,
+}
+
+impl From<Ability> for EntryAbilityAttribute {
+    fn from(ab: Ability) -> Self {
+        use Ability::*;
+
+        match ab {
+            Strength => Self::Strength,
+            Dexterity => Self::Dexterity,
+            Constitution => Self::Constitution,
+            Intelligence => Self::Intelligence,
+            Wisdom => Self::Wisdom,
+            Charisma => Self::Charisma,
+        }
+    }
+}
+
+impl TryFrom<EntryAbilityAttribute> for Ability {
+    type Error = ();
+
+    fn try_from(value: EntryAbilityAttribute) -> Result<Self, Self::Error> {
+        use EntryAbilityAttribute::*;
+
+        let ret = match value {
+            Strength => Self::Strength,
+            Dexterity => Self::Dexterity,
+            Constitution => Self::Constitution,
+            Intelligence => Self::Intelligence,
+            Wisdom => Self::Wisdom,
+            Charisma => Self::Charisma,
+            Spellcasting => return Err(()),
+        };
+
+        Ok(ret)
+    }
 }
 
 #[cfg(test)]

@@ -1,7 +1,9 @@
 mod entry;
+mod serde_utils;
 mod string;
 #[cfg(test)]
 mod test_utils;
+mod util;
 
 #[cfg(test)]
 mod tests {
