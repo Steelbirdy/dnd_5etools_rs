@@ -1,6 +1,10 @@
+mod error;
 pub mod kinds;
+mod render;
 mod util;
 
+pub use error::Error;
+pub use render::{EntryRenderer, Result};
 pub use util::*;
 
 use kinds::*;

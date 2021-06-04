@@ -48,7 +48,7 @@ pub struct EntrySpellcastingFrequency<'a>(#[serde(borrow)] HashMap<&'a str, Arra
 pub struct SpellsByLevel<'a>(#[serde(borrow)] HashMap<u8, EntrySpellcastingLevels<'a>>);
 
 impl<'a> Serialize for SpellsByLevel<'a> {
-    fn serialize<S>(&self, s: S) -> Result<S::Ok, S::Error>
+    fn serialize<S>(&self, s: S) -> std::result::Result<S::Ok, S::Error>
     where
         S: Serializer,
     {

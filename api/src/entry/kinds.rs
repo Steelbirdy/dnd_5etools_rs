@@ -24,6 +24,34 @@ pub mod spellcasting;
 pub mod table;
 pub mod variant;
 
+pub mod all {
+    pub use super::ability::*;
+    pub use super::actions::*;
+    pub use super::attack::*;
+    pub use super::bonus::*;
+    pub use super::data::*;
+    pub use super::dice::*;
+    pub use super::entries::*;
+    pub use super::flow::*;
+    pub use super::homebrew::*;
+    pub use super::hr::*;
+    pub use super::image::*;
+    pub use super::ingredient::*;
+    pub use super::inline::*;
+    pub use super::inset::*;
+    pub use super::item::*;
+    pub use super::link::*;
+    pub use super::list::*;
+    pub use super::opt_feature::*;
+    pub use super::options::*;
+    pub use super::quote::*;
+    pub use super::refs::*;
+    pub use super::section::*;
+    pub use super::spellcasting::*;
+    pub use super::table::*;
+    pub use super::variant::*;
+}
+
 use super::*;
 
 #[cfg(test)]
