@@ -1,14 +1,13 @@
-mod entry;
-mod serde_utils;
-mod string;
-#[cfg(test)]
-mod test_utils;
-mod util;
+pub mod entry {
+    pub use api::entry::{
+        kinds,
+        Entry,
+        EntryBase,
+        EntryKind,
+        MediaHref,
+    };
+}
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
+pub mod string {
+    pub use api::string::*;
 }

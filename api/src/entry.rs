@@ -1,6 +1,4 @@
-mod error;
 pub mod kinds;
-mod render;
 mod util;
 
 pub use util::*;
