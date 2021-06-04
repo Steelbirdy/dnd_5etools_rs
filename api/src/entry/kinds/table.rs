@@ -5,7 +5,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryTable<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub caption: Option<&'a str>,
     /// Primarily for homebrew use.
     pub intro: Option<Entries<'a>>,
@@ -29,7 +29,7 @@ pub struct EntryTable<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryTableGroup<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub tables: Option<Entries<'a>>,
 }
 
@@ -75,7 +75,7 @@ impl<'a> From<EntryTableRow<'a>> for EntryTableRowKind<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryTableRow<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub style: Option<&'a str>,
     pub row: Entries<'a>,
 }
@@ -84,7 +84,7 @@ pub struct EntryTableRow<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryTableCell<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub width: Option<i64>,
     pub roll: EntryTableCellRoll,
     pub entry: Option<Box<Entry<'a>>>,

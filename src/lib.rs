@@ -1,5 +1,5 @@
 pub mod entry {
-    pub use api::entry::{kinds, Entry, EntryBase, EntryKind, MediaHref};
+    pub use api::entry::{kinds, Entry, EntryBaseData, EntryKind, MediaHref};
 }
 
 pub mod string {

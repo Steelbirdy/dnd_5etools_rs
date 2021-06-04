@@ -4,7 +4,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryList<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     /// Number of columns the content should be split into.
     /// Note that the full value is only displayed on wide screens,
     /// and screens below certain widths will see an appropriately reduced number of columns.

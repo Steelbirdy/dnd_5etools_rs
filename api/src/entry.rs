@@ -1,10 +1,11 @@
 mod error;
+mod impls;
 pub mod kinds;
 mod render;
 mod util;
 
-pub use error::Error;
-pub use render::{EntryRenderer, Result};
+pub use error::{Error, Result};
+pub use render::RenderEntry;
 pub use util::*;
 
 use kinds::*;
@@ -15,14 +16,23 @@ use serde_with::skip_serializing_none;
 
 #[skip_serializing_none]
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct EntryBase<'a> {
+pub struct EntryBaseData<'a> {
     pub name: Option<&'a str>,
     pub source: Option<&'a str>,
     /// A generic object for storing special data for external use-cases.
     /// Keys prefixed with \"rd-\" should be added as \"data-\" HTML attributes when rendering to HTML.
     pub data: Option<Value>,
+    /// Technically the API allows for negative page numbers. This should be handled during rendering.
     pub page: Option<i64>,
     pub id: Option<&'a str>,
+}
+
+pub trait EntryBase<'a> {
+    fn name(&self) -> Option<&'a str>;
+    fn source(&self) -> Option<&'a str>;
+    fn data(&self) -> Option<&Value>;
+    fn page(&self) -> Option<i64>;
+    fn id(&self) -> Option<&'a str>;
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -32,6 +42,13 @@ pub enum Entry<'a> {
     String(&'a str),
     // Not really sure why this is a thing, but it is in the schema...
     Integer(i64),
+}
+
+impl<'a> Entry<'a> {
+    pub fn from_json(s: &'a str) -> Result<Self> {
+        serde_json::from_str(s)
+            .map_err(Error::from)
+    }
 }
 
 pub type Entries<'a> = Vec<Entry<'a>>;

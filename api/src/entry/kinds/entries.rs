@@ -4,7 +4,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryEntries<'a> {
     #[serde(flatten, borrow)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub alias: Option<Vec<&'a str>>,
     pub entries: Entries<'a>,
 }

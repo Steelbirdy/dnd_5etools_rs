@@ -6,7 +6,7 @@ use std::collections::HashMap;
 #[serde(rename_all = "camelCase")]
 pub struct EntryImage<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub href: MediaHref<'a>,
     /// A thumbnail image used in rare cases, e.g. when loading a wall of maps to choose from in the DM Screen.
     pub href_thumbnail: Option<MediaHref<'a>>,
@@ -30,7 +30,7 @@ pub struct EntryImage<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryGallery<'a> {
     #[serde(flatten, borrow)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub images: Vec<EntryImage<'a>>,
 }
 

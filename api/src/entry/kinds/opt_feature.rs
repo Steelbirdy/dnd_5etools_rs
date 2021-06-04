@@ -5,7 +5,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryOptFeature<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub prerequisite: Option<&'a str>,
     // This is missing in the schema, but is included in the render demo.

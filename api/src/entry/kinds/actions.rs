@@ -3,7 +3,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryActions<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entries: Entries<'a>,
 }

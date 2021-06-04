@@ -5,7 +5,7 @@ use std::collections::HashMap;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryIngredient<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entry: Box<Entry<'a>>,
     #[serde(flatten)]
     pub amounts: HashMap<&'a str, Number>,

@@ -12,7 +12,7 @@ use std::collections::HashMap;
 #[serde(rename_all = "camelCase")]
 pub struct EntrySpellcasting<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub header_entries: Option<Entries<'a>>,
     pub constant: Option<ArrayOfSpell<'a>>,

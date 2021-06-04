@@ -4,12 +4,12 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryDataCreature<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
-    pub data_creature: Creature<'a>,
+    pub base: EntryBaseData<'a>,
+    pub data_creature: DataCreature<'a>,
 }
 
-impl<'a> From<Creature<'a>> for EntryDataCreature<'a> {
-    fn from(data_creature: Creature<'a>) -> Self {
+impl<'a> From<DataCreature<'a>> for EntryDataCreature<'a> {
+    fn from(data_creature: DataCreature<'a>) -> Self {
         Self {
             base: Default::default(),
             data_creature,
@@ -21,12 +21,12 @@ impl<'a> From<Creature<'a>> for EntryDataCreature<'a> {
 #[serde(rename_all = "camelCase")]
 pub struct EntryDataSpell<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
-    pub data_spell: Spell<'a>,
+    pub base: EntryBaseData<'a>,
+    pub data_spell: DataSpell<'a>,
 }
 
-impl<'a> From<Spell<'a>> for EntryDataSpell<'a> {
-    fn from(data_spell: Spell<'a>) -> Self {
+impl<'a> From<DataSpell<'a>> for EntryDataSpell<'a> {
+    fn from(data_spell: DataSpell<'a>) -> Self {
         Self {
             base: Default::default(),
             data_spell,
@@ -38,12 +38,12 @@ impl<'a> From<Spell<'a>> for EntryDataSpell<'a> {
 #[serde(rename_all = "camelCase")]
 pub struct EntryDataTrapHazard<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub data_trap_hazard: EntryDataTrapHazardKind<'a>,
 }
 
-impl<'a> From<Trap<'a>> for EntryDataTrapHazard<'a> {
-    fn from(data_trap: Trap<'a>) -> Self {
+impl<'a> From<DataTrap<'a>> for EntryDataTrapHazard<'a> {
+    fn from(data_trap: DataTrap<'a>) -> Self {
         Self {
             base: Default::default(),
             data_trap_hazard: EntryDataTrapHazardKind::Trap(data_trap),
@@ -51,8 +51,8 @@ impl<'a> From<Trap<'a>> for EntryDataTrapHazard<'a> {
     }
 }
 
-impl<'a> From<Hazard<'a>> for EntryDataTrapHazard<'a> {
-    fn from(data_hazard: Hazard<'a>) -> Self {
+impl<'a> From<DataHazard<'a>> for EntryDataTrapHazard<'a> {
+    fn from(data_hazard: DataHazard<'a>) -> Self {
         Self {
             base: Default::default(),
             data_trap_hazard: EntryDataTrapHazardKind::Hazard(data_hazard),
@@ -64,12 +64,12 @@ impl<'a> From<Hazard<'a>> for EntryDataTrapHazard<'a> {
 #[serde(rename_all = "camelCase")]
 pub struct EntryDataObject<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
-    pub data_object: Object<'a>,
+    pub base: EntryBaseData<'a>,
+    pub data_object: DataObject<'a>,
 }
 
-impl<'a> From<Object<'a>> for EntryDataObject<'a> {
-    fn from(data_object: Object<'a>) -> Self {
+impl<'a> From<DataObject<'a>> for EntryDataObject<'a> {
+    fn from(data_object: DataObject<'a>) -> Self {
         Self {
             base: Default::default(),
             data_object,
@@ -81,12 +81,12 @@ impl<'a> From<Object<'a>> for EntryDataObject<'a> {
 #[serde(rename_all = "camelCase")]
 pub struct EntryDataItem<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
-    pub data_item: Item<'a>,
+    pub base: EntryBaseData<'a>,
+    pub data_item: DataItem<'a>,
 }
 
-impl<'a> From<Item<'a>> for EntryDataItem<'a> {
-    fn from(data_item: Item<'a>) -> Self {
+impl<'a> From<DataItem<'a>> for EntryDataItem<'a> {
+    fn from(data_item: DataItem<'a>) -> Self {
         Self {
             base: Default::default(),
             data_item,
@@ -98,8 +98,8 @@ impl<'a> From<Item<'a>> for EntryDataItem<'a> {
 #[serde(untagged)]
 pub enum EntryDataTrapHazardKind<'a> {
     #[serde(borrow)]
-    Trap(Trap<'a>),
-    Hazard(Hazard<'a>),
+    Trap(DataTrap<'a>),
+    Hazard(DataHazard<'a>),
 }
 
 impl<'a> From<EntryDataCreature<'a>> for EntryKind<'a> {
@@ -134,19 +134,19 @@ impl<'a> From<EntryDataItem<'a>> for EntryKind<'a> {
 
 // TODO: Temporary structs. Write tests later
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Creature<'a>(&'a str);
+pub struct DataCreature<'a>(&'a str);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Spell<'a>(&'a str);
+pub struct DataSpell<'a>(&'a str);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Trap<'a>(&'a str);
+pub struct DataTrap<'a>(&'a str);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Hazard<'a>(&'a str);
+pub struct DataHazard<'a>(&'a str);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Object<'a>(&'a str);
+pub struct DataObject<'a>(&'a str);
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
-pub struct Item<'a>(&'a str);
+pub struct DataItem<'a>(&'a str);

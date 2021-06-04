@@ -5,7 +5,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryHomebrew<'a> {
     #[serde(flatten, borrow)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Option<Entries<'a>>,
     pub moved_to: Option<Box<Entry<'a>>>,
     pub old_entries: Option<Entries<'a>>,

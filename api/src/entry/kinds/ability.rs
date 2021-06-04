@@ -5,7 +5,7 @@ use std::convert::TryFrom;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityDc<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub attributes: Vec<EntryAbilityAttribute>,
 }
@@ -13,7 +13,7 @@ pub struct EntryAbilityDc<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityAttackMod<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub attributes: Vec<EntryAbilityAttribute>,
 }
@@ -22,7 +22,7 @@ pub struct EntryAbilityAttackMod<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryAbilityGeneric<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub text: &'a str,
     pub attributes: Option<Vec<EntryAbilityAttribute>>,
 }

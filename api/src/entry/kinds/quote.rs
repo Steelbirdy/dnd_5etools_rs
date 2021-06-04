@@ -5,7 +5,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryQuote<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Entries<'a>,
     pub by: Option<&'a str>,
     pub from: Option<&'a str>,

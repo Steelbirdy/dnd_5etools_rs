@@ -4,7 +4,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryInset<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Entries<'a>,
     pub style: Option<&'a str>,
 }
@@ -13,7 +13,7 @@ pub struct EntryInset<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryInsetReadaloud<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Entries<'a>,
     pub style: Option<&'a str>,
 }

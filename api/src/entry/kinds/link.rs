@@ -11,7 +11,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryLink<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub text: &'a str,
     pub href: EntryLinkHref<'a>,
 }

@@ -1,16 +1,13 @@
-use std::fmt;
+use super::render::RenderError;
+use serde_json::Error as SerdeError;
+use thiserror::Error as ErrorDerive;
 
-#[derive(Debug, Copy, Clone, PartialEq)]
+pub type Result<T> = std::result::Result<T, Error>;
+
+#[derive(ErrorDerive, Debug)]
 pub enum Error {
-    Custom(&'static str),
-    NotImplemented,
-}
-
-impl fmt::Display for Error {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        match self {
-            Self::Custom(msg) => f.write_str(msg),
-            Self::NotImplemented => f.write_str("Rendering this variant is not implemented"),
-        }
-    }
+    #[error("{0}")]
+    RenderError(#[from] RenderError),
+    #[error("{0}")]
+    SerdeError(#[from] SerdeError),
 }

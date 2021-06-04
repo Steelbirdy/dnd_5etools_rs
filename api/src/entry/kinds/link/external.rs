@@ -1,4 +1,4 @@
-use crate::entry::link::EntryLinkHref;
+use crate::entry::EntryLinkHref;
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]

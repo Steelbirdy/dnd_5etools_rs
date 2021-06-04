@@ -5,7 +5,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryDice<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub to_roll: Option<Vec<EntryDiceToRoll>>,
     pub rollable: Option<bool>,
 }

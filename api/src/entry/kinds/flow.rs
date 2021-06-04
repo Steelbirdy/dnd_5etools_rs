@@ -3,7 +3,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryFlowchart<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     // The schema actually doesn't specify that they have to be flow blocks,
     // but it _does_ specify that they have to be actual entry structs, not strings.
     pub blocks: Vec<EntryKind<'a>>,
@@ -13,7 +13,7 @@ pub struct EntryFlowchart<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryFlowBlock<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Option<Entries<'a>>,
 }
 

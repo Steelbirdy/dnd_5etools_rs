@@ -4,7 +4,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryAttack<'a> {
     #[serde(borrow, flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub attack_type: EntryAttackType,
     pub attack_entries: Entries<'a>,
     pub hit_entries: Entries<'a>,

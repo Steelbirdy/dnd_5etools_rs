@@ -6,7 +6,7 @@ use serde_with::skip_serializing_none;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryOptions<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     /// Used to specify how many of the listed options can be chosen as e.g. permanent character features.
     /// Leave blank for transient choices.
     pub count: Option<u8>,

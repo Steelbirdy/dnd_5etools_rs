@@ -4,7 +4,7 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryItem<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub style: Option<&'a str>,
     pub name: &'a str,
     #[serde(flatten)]
@@ -14,7 +14,7 @@ pub struct EntryItem<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryItemSub<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entry: Box<Entry<'a>>,
 }
@@ -22,7 +22,7 @@ pub struct EntryItemSub<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryItemSpell<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entry: Box<Entry<'a>>,
 }

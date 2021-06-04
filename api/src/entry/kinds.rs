@@ -1,66 +1,64 @@
-pub mod ability;
-pub mod actions;
-pub mod attack;
-pub mod bonus;
-pub mod data;
-pub mod dice;
-pub mod entries;
-pub mod flow;
-pub mod homebrew;
-pub mod hr;
-pub mod image;
-pub mod ingredient;
-pub mod inline;
-pub mod inset;
-pub mod item;
-pub mod link;
-pub mod list;
-pub mod opt_feature;
-pub mod options;
-pub mod quote;
-pub mod refs;
-pub mod section;
-pub mod spellcasting;
-pub mod table;
-pub mod variant;
+pub(crate) mod ability;
+pub(crate) mod actions;
+pub(crate) mod attack;
+pub(crate) mod bonus;
+pub(crate) mod data;
+pub(crate) mod dice;
+pub(crate) mod entries;
+pub(crate) mod flow;
+pub(crate) mod homebrew;
+pub(crate) mod hr;
+pub(crate) mod image;
+pub(crate) mod ingredient;
+pub(crate) mod inline;
+pub(crate) mod inset;
+pub(crate) mod item;
+pub(crate) mod link;
+pub(crate) mod list;
+pub(crate) mod opt_feature;
+pub(crate) mod options;
+pub(crate) mod quote;
+pub(crate) mod refs;
+pub(crate) mod section;
+pub(crate) mod spellcasting;
+pub(crate) mod table;
+pub(crate) mod variant;
 
-pub mod all {
-    pub use super::ability::*;
-    pub use super::actions::*;
-    pub use super::attack::*;
-    pub use super::bonus::*;
-    pub use super::data::*;
-    pub use super::dice::*;
-    pub use super::entries::*;
-    pub use super::flow::*;
-    pub use super::homebrew::*;
-    pub use super::hr::*;
-    pub use super::image::*;
-    pub use super::ingredient::*;
-    pub use super::inline::*;
-    pub use super::inset::*;
-    pub use super::item::*;
-    pub use super::link::*;
-    pub use super::list::*;
-    pub use super::opt_feature::*;
-    pub use super::options::*;
-    pub use super::quote::*;
-    pub use super::refs::*;
-    pub use super::section::*;
-    pub use super::spellcasting::*;
-    pub use super::table::*;
-    pub use super::variant::*;
-}
+pub use ability::*;
+pub use actions::*;
+pub use attack::*;
+pub use bonus::*;
+pub use data::*;
+pub use dice::*;
+pub use entries::*;
+pub use flow::*;
+pub use homebrew::*;
+pub use hr::*;
+pub use image::*;
+pub use ingredient::*;
+pub use inline::*;
+pub use inset::*;
+pub use item::*;
+pub use link::*;
+pub use list::*;
+pub use opt_feature::*;
+pub use options::*;
+pub use quote::*;
+pub use refs::*;
+pub use section::*;
+pub use spellcasting::*;
+pub use table::*;
+pub use variant::*;
 
 use super::*;
 
 #[cfg(test)]
-mod test_utils {
-    use super::super::EntryBase;
+pub(crate) mod test_utils {
+    use super::super::EntryBaseData;
     pub use crate::test_utils::*;
 
-    pub fn base(name: Option<&str>) -> EntryBase<'_> {
-        EntryBase {
+    pub fn base(name: Option<&str>) -> EntryBaseData<'_> {
+        EntryBaseData {
             name,
             source: None,
             data: None,

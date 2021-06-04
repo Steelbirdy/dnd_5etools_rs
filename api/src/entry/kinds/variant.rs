@@ -5,7 +5,7 @@ use super::*;
 #[serde(rename_all = "camelCase")]
 pub struct EntryVariant<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entries: Entries<'a>,
     pub variant_source: Option<EntryVariantSource<'a>>,
@@ -14,7 +14,7 @@ pub struct EntryVariant<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryVariantInner<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entries: Entries<'a>,
 }
@@ -22,7 +22,7 @@ pub struct EntryVariantInner<'a> {
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryVariantSub<'a> {
     #[serde(flatten)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub name: &'a str,
     pub entries: Entries<'a>,
 }

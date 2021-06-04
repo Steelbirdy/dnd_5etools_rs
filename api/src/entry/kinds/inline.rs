@@ -3,14 +3,14 @@ use super::*;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryInline<'a> {
     #[serde(flatten, borrow)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Entries<'a>,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct EntryInlineBlock<'a> {
     #[serde(flatten, borrow)]
-    pub base: EntryBase<'a>,
+    pub base: EntryBaseData<'a>,
     pub entries: Entries<'a>,
 }
 
