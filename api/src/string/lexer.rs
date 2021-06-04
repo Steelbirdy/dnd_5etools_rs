@@ -173,7 +173,7 @@ pub struct LexemeTag<'a> {
     pub args: Vec<&'a str>,
 }
 
-#[derive(Error, Debug, Clone, PartialEq)]
+#[derive(Error, Debug, PartialEq)]
 pub enum LexError {
     #[error("tag beginning at index {0} does not have a name")]
     NoTagName(usize),

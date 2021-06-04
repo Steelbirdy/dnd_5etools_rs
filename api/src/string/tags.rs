@@ -164,7 +164,7 @@ impl<'a> TryFrom<LexemeTag<'a>> for Tag<'a> {
     }
 }
 
-#[derive(Error, Debug, Clone, PartialEq)]
+#[derive(Error, Debug, PartialEq)]
 pub enum TagError {
     #[error("unrecognized tag name `{0}`")]
     UnrecognizedName(String),
