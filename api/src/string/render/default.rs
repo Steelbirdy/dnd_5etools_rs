@@ -22,8 +22,7 @@ impl DefaultStringRenderer {
     }
 
     fn check_arg_count<R: RangeBounds<usize>>(expected: R, found: usize) -> Result<()> {
-        super::utils::check_arg_count(expected, found)
-            .map_err(Error::from)
+        super::utils::check_arg_count(expected, found).map_err(Error::from)
     }
 
     fn render_attack_tag(args: Vec<&str>) -> Result<String> {

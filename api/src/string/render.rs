@@ -395,8 +395,8 @@ fn format_range((lower, upper): &(Bound<usize>, Bound<usize>)) -> String {
 }
 
 pub(crate) fn bounds_from_range<R>(range: R) -> (Bound<usize>, Bound<usize>)
-    where
-        R: RangeBounds<usize>,
+where
+    R: RangeBounds<usize>,
 {
     use Bound::*;
 
