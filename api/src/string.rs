@@ -5,11 +5,11 @@ mod tags;
 
 pub use error::*;
 pub use lexer::Lexeme;
-pub use render::{DefaultStringRenderer, StringRenderer};
+pub use render::{DefaultStringRenderer, RenderString};
 pub use tags::{Tag, TagError, TagName};
 
 #[allow(dead_code)]
-pub fn render<R: StringRenderer>(renderer: R, input: &str) -> Result<String> {
+pub fn render<R: RenderString>(renderer: R, input: &str) -> Result<String> {
     renderer.render(input)
 }
 
@@ -23,7 +23,7 @@ pub fn tokenize(input: &str) -> Result<impl Iterator<Item = Lexeme>> {
 mod tests {
     use super::*;
 
-    fn check<R: StringRenderer>(renderer: R, input: &str, expected: Result<&str>) {
+    fn check<R: RenderString>(renderer: R, input: &str, expected: Result<&str>) {
         assert_eq!(renderer.render(input), expected.map(String::from),)
     }
 

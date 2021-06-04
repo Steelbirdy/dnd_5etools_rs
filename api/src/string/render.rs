@@ -11,7 +11,7 @@ use std::fmt::Display;
 use std::ops::{Bound, RangeBounds};
 use thiserror::Error;
 
-pub trait StringRenderer {
+pub trait RenderString {
     fn render(&self, input: &str) -> Result<String>;
 
     fn render_tag(&self, tag: Tag) -> Result<String> {

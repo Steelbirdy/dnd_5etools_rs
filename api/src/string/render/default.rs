@@ -1,5 +1,5 @@
 use super::super::{tags::Tag, tokenize, Error, Lexeme, Result};
-use super::{RenderError, StringRenderer};
+use super::{RenderError, RenderString};
 use std::collections::HashSet;
 use std::ops::RangeBounds;
 
@@ -10,7 +10,7 @@ impl DefaultStringRenderer {
         match lexeme {
             Lexeme::Text(text) => self.render_text(text),
             Lexeme::Tag { name, args } => {
-                let tag = Tag::new(name, args).map_err(Error::from)?;
+                let tag = Tag::new(name, args)?;
 
                 self.render_tag(tag)
             }
@@ -179,7 +179,7 @@ impl DefaultStringRenderer {
     }
 }
 
-impl StringRenderer for DefaultStringRenderer {
+impl RenderString for DefaultStringRenderer {
     fn render(&self, input: &str) -> Result<String> {
         tokenize(input)?
             .map(|lexeme| self.render_lexeme(lexeme))
