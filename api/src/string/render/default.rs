@@ -1,8 +1,7 @@
-use super::super::{tags::Tag, tokenize, Lexeme, Result};
+use super::super::{lexer::LexemeTag, tags::Tag, tokenize, Lexeme, Result};
 use super::{RenderError, RenderString};
 use std::collections::HashSet;
 use std::ops::RangeBounds;
-use crate::string::lexer::LexemeTag;
 
 pub struct DefaultStringRenderer;
 

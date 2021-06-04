@@ -1,8 +1,8 @@
 use super::{Error, Result};
-use std::str::FromStr;
-use thiserror::Error;
 use crate::string::lexer::LexemeTag;
 use std::convert::TryFrom;
+use std::str::FromStr;
+use thiserror::Error;
 
 pub enum TagName {
     Bold,

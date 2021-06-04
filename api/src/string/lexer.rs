@@ -170,7 +170,7 @@ impl<'a> Lexeme<'a> {
 #[derive(Debug, Clone, PartialEq)]
 pub struct LexemeTag<'a> {
     pub name: &'a str,
-    pub args: Vec<&'a str>
+    pub args: Vec<&'a str>,
 }
 
 #[derive(Error, Debug, Clone, PartialEq)]
@@ -275,9 +275,7 @@ mod tests {
     fn lex_only_tag() {
         assert_eq!(
             lex("{@spell fireball|phb}"),
-            vec![
-                Lexeme::tag("spell", vec!["fireball", "phb"]),
-            ],
+            vec![Lexeme::tag("spell", vec!["fireball", "phb"])],
         );
     }
 
@@ -310,17 +308,20 @@ mod tests {
             lex("The {@class |fighter|phb||{@b eldritch knight}|||phb|} is a third-caster"),
             vec![
                 Lexeme::Text("The "),
-                Lexeme::tag("class", vec![
-                    "",
-                    "fighter",
-                    "phb",
-                    "",
-                    "{@b eldritch knight}",
-                    "",
-                    "",
-                    "phb",
-                    ""
-                ]),
+                Lexeme::tag(
+                    "class",
+                    vec![
+                        "",
+                        "fighter",
+                        "phb",
+                        "",
+                        "{@b eldritch knight}",
+                        "",
+                        "",
+                        "phb",
+                        ""
+                    ]
+                ),
                 Lexeme::Text(" is a third-caster"),
             ],
         );

@@ -362,7 +362,7 @@ impl RenderError {
     pub fn arg_format<D: Display>(msg: D) -> Self {
         Self::ArgFormat(msg.to_string())
     }
-    
+
     pub fn not_implemented(fn_name: &'static str) -> Self {
         Self::NotImplemented(fn_name)
     }
