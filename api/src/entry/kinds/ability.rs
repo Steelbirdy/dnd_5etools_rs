@@ -81,7 +81,7 @@ impl From<Ability> for EntryAbilityAttribute {
 impl TryFrom<EntryAbilityAttribute> for Ability {
     type Error = ();
 
-    fn try_from(value: EntryAbilityAttribute) -> Result<Self, Self::Error> {
+    fn try_from(value: EntryAbilityAttribute) -> std::result::Result<Self, Self::Error> {
         use EntryAbilityAttribute::*;
 
         let ret = match value {
