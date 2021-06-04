@@ -14,6 +14,8 @@ use thiserror::Error;
 pub trait RenderString {
     fn render(&self, input: &str) -> Result<String>;
 
+    /// Dispatches to the correct rendering function.
+    /// [RenderString] implementations should not override the default behavior.
     fn render_tag(&self, tag: Tag) -> Result<String> {
         match tag.name {
             TagName::Bold => self.render_bold(tag.args),
@@ -81,191 +83,253 @@ pub trait RenderString {
         }
     }
 
-    fn render_bold(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_bold(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_bold").into())
     }
-    fn render_italic(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_italic(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_italic").into())
     }
-    fn render_strikethrough(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_strikethrough(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_strikethrough").into())
     }
-    fn render_underline(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_underline(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_underline").into())
     }
-    fn render_note(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_note(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_note").into())
     }
-    fn render_attack(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_attack(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_attack").into())
     }
-    fn render_h(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_h(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_h").into())
     }
-    fn render_color(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_color(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_color").into())
     }
-    fn render_highlight(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_highlight(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_highlight").into())
     }
-    fn render_help(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_help(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_help").into())
     }
-    fn render_comic(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic").into())
     }
-    fn render_comic_h1(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic_h1(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic_h1").into())
     }
-    fn render_comic_h2(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic_h2(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic_h2").into())
     }
-    fn render_comic_h3(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic_h3(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic_h3").into())
     }
-    fn render_comic_h4(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic_h4(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic_h4").into())
     }
-    fn render_comic_note(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_comic_note(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_comic_note").into())
     }
-    fn render_dc(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_dc(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_dc").into())
     }
-    fn render_dice(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_dice(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_dice").into())
     }
-    fn render_damage(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_damage(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_damage").into())
     }
-    fn render_d20(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_d20(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_d20").into())
     }
-    fn render_hit(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_hit(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_hit").into())
     }
-    fn render_chance(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_chance(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_chance").into())
     }
-    fn render_recharge(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_recharge(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_recharge").into())
     }
-    fn render_hit_your_spell_attack(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_hit_your_spell_attack(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_hit_your_spell_attack").into())
     }
-    fn render_scale_dice(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_scale_dice(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_scale_dice").into())
     }
-    fn render_scale_damage(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_scale_damage(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_scale_damage").into())
     }
-    fn render_filter(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_filter(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_filter").into())
     }
-    fn render_link(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_link(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_link").into())
     }
-    fn render_5etools(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_5etools(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_5etools").into())
     }
-    fn render_footnote(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_footnote(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_footnote").into())
     }
-    fn render_homebrew(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_homebrew(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_homebrew").into())
     }
-    fn render_skill(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_skill(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_skill").into())
     }
-    fn render_sense(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_sense(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_sense").into())
     }
-    fn render_area(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_area(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_area").into())
     }
-    fn render_loader(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_loader(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_loader").into())
     }
-    fn render_book(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_book(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_book").into())
     }
-    fn render_adventure(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_adventure(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_adventure").into())
     }
-    fn render_deity(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_deity(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_deity").into())
     }
-    fn render_class_feature(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_class_feature(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_class_feature").into())
     }
-    fn render_subclass_feature(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_subclass_feature(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_subclass_feature").into())
     }
-    fn render_spell(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_spell(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_spell").into())
     }
-    fn render_item(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_item(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_item").into())
     }
-    fn render_class(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_class(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_class").into())
     }
-    fn render_creature(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_creature(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_creature").into())
     }
-    fn render_condition_disease_status(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_condition_disease_status(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_condition_disease_status").into())
     }
-    fn render_background(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_background(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_background").into())
     }
-    fn render_race(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_race(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_race").into())
     }
-    fn render_optional_feature(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_optional_feature(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_optional_feature").into())
     }
-    fn render_reward(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_reward(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_reward").into())
     }
-    fn render_feat(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_feat(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_feat").into())
     }
-    fn render_psionic(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_psionic(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_psionic").into())
     }
-    fn render_object(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_object(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_object").into())
     }
-    fn render_cult_boon(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_cult_boon(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_cult_boon").into())
     }
-    fn render_trap_hazard(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_trap_hazard(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_trap_hazard").into())
     }
-    fn render_variant_rule(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_variant_rule(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_variant_rule").into())
     }
-    fn render_table(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_table(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_table").into())
     }
-    fn render_vehicle(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_vehicle(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_vehicle").into())
     }
-    fn render_vehicle_upgrade(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_vehicle_upgrade(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_vehicle_upgrade").into())
     }
-    fn render_action(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_action(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_action").into())
     }
-    fn render_language(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_language(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_language").into())
     }
-    fn render_char_option(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_char_option(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_char_option").into())
     }
-    fn render_recipe(&self, _args: Vec<&str>) -> Result<String> {
-        unimplemented!()
+    fn render_recipe(&self, args: Vec<&str>) -> Result<String> {
+        let _ = args;
+        Err(RenderError::not_implemented("render_recipe").into())
     }
 }
 
@@ -278,6 +342,8 @@ pub enum RenderError {
     },
     #[error("invalid argument format: {0}")]
     ArgFormat(String),
+    #[error("the function `{0}` has not been implemented")]
+    NotImplemented(&'static str),
     #[error("{0}")]
     Custom(String),
 }
@@ -295,6 +361,10 @@ impl RenderError {
 
     pub fn arg_format<D: Display>(msg: D) -> Self {
         Self::ArgFormat(msg.to_string())
+    }
+    
+    pub fn not_implemented(fn_name: &'static str) -> Self {
+        Self::NotImplemented(fn_name)
     }
 
     pub fn custom<D: Display>(msg: D) -> Self {
