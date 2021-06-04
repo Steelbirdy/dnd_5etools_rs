@@ -1,5 +1,5 @@
 use api::string;
-use api::string::{render_utils, Lexeme, RenderError, RenderString, Result};
+use api::string::{render_utils, Lexeme, RenderError, RenderString, Result, TagError};
 use std::convert::TryInto;
 
 struct StringRenderer;
@@ -49,6 +49,22 @@ fn render_simple_formatting_tags() {
 fn error_on_invalid_args() {
     let input = "Trying to render a tag with {@b too|many} arguments returns an error.";
     let expected = RenderError::arg_count(1..=1, 2);
+
+    assert_eq!(StringRenderer.render(input), Err(expected.into()));
+}
+
+#[test]
+fn error_on_bad_tag_name() {
+    let input = "The tag {@yeet} does not exist";
+    let expected = TagError::UnrecognizedName("yeet".to_string());
+
+    assert_eq!(StringRenderer.render(input), Err(expected.into()));
+}
+
+#[test]
+fn error_on_unimplemented_tag() {
+    let input = "The tag {@spell fireball|phb} is not implemented";
+    let expected = RenderError::NotImplemented("render_spell");
 
     assert_eq!(StringRenderer.render(input), Err(expected.into()));
 }
