@@ -1,7 +1,8 @@
-use super::super::{tags::Tag, tokenize, Error, Lexeme, Result};
+use super::super::{tags::Tag, tokenize, Lexeme, Result};
 use super::{RenderError, RenderString};
 use std::collections::HashSet;
 use std::ops::RangeBounds;
+use crate::string::lexer::LexemeTag;
 
 pub struct DefaultStringRenderer;
 
@@ -9,7 +10,7 @@ impl DefaultStringRenderer {
     fn render_lexeme(&self, lexeme: Lexeme<'_>) -> Result<String> {
         match lexeme {
             Lexeme::Text(text) => self.render_text(text),
-            Lexeme::Tag { name, args } => {
+            Lexeme::Tag(LexemeTag { name, args }) => {
                 let tag = Tag::new(name, args)?;
 
                 self.render_tag(tag)

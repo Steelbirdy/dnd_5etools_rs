@@ -1,6 +1,8 @@
-use super::Error;
+use super::{Error, Result};
 use std::str::FromStr;
 use thiserror::Error;
+use crate::string::lexer::LexemeTag;
+use std::convert::TryFrom;
 
 pub enum TagName {
     Bold,
@@ -69,7 +71,7 @@ pub enum TagName {
 impl FromStr for TagName {
     type Err = Error;
 
-    fn from_str(s: &str) -> Result<Self, Self::Err> {
+    fn from_str(s: &str) -> Result<Self> {
         match s {
             "b" | "bold" => Ok(Self::Bold),
             "i" | "italic" => Ok(Self::Italic),
@@ -144,7 +146,18 @@ pub struct Tag<'a> {
 }
 
 impl<'a> Tag<'a> {
-    pub fn new(name: &'a str, args: Vec<&'a str>) -> Result<Self, <TagName as FromStr>::Err> {
+    pub fn new(name: &'a str, args: Vec<&'a str>) -> Result<Self> {
+        let name = TagName::from_str(name)?;
+
+        Ok(Self { name, args })
+    }
+}
+
+impl<'a> TryFrom<LexemeTag<'a>> for Tag<'a> {
+    type Error = Error;
+
+    fn try_from(lexeme: LexemeTag<'a>) -> Result<Self> {
+        let LexemeTag { name, args } = lexeme;
         let name = TagName::from_str(name)?;
 
         Ok(Self { name, args })

@@ -104,10 +104,7 @@ impl<'a> Lexer<'a> {
             args.push(self.slice(&(last_arg_start..end - 1)));
         }
 
-        Ok(Lexeme::Tag {
-            name: tag_name,
-            args,
-        })
+        Ok(Lexeme::tag(tag_name, args))
     }
 
     fn text(&mut self, start: usize) -> Result<Lexeme<'a>> {
@@ -158,8 +155,22 @@ impl<'a> Iterator for Lexer<'a> {
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum Lexeme<'a> {
-    Tag { name: &'a str, args: Vec<&'a str> },
+    Tag(LexemeTag<'a>),
     Text(&'a str),
+}
+
+impl<'a> Lexeme<'a> {
+    fn tag(name: &'a str, args: Vec<&'a str>) -> Self {
+        Self::Tag(LexemeTag { name, args })
+    }
+}
+
+/// Represents a tag that has been parsed into a lexeme.
+/// Unlike [super::tags::Tag], this type allows 100% of the input space.
+#[derive(Debug, Clone, PartialEq)]
+pub struct LexemeTag<'a> {
+    pub name: &'a str,
+    pub args: Vec<&'a str>
 }
 
 #[derive(Error, Debug, Clone, PartialEq)]
@@ -264,10 +275,9 @@ mod tests {
     fn lex_only_tag() {
         assert_eq!(
             lex("{@spell fireball|phb}"),
-            vec![Lexeme::Tag {
-                name: "spell",
-                args: vec!["fireball", "phb"]
-            }],
+            vec![
+                Lexeme::tag("spell", vec!["fireball", "phb"]),
+            ],
         );
     }
 
@@ -277,10 +287,7 @@ mod tests {
             lex("The tag {@spell fireball|phb} describes the fireball spell"),
             vec![
                 Lexeme::Text("The tag "),
-                Lexeme::Tag {
-                    name: "spell",
-                    args: vec!["fireball", "phb"]
-                },
+                Lexeme::tag("spell", vec!["fireball", "phb"]),
                 Lexeme::Text(" describes the fireball spell"),
             ],
         );
@@ -291,10 +298,7 @@ mod tests {
         assert_eq!(
             lex("{@h} 5 (1d8+1) necrotic damage"),
             vec![
-                Lexeme::Tag {
-                    name: "h",
-                    args: vec![]
-                },
+                Lexeme::tag("h", vec![]),
                 Lexeme::Text(" 5 (1d8+1) necrotic damage"),
             ],
         );
@@ -306,20 +310,17 @@ mod tests {
             lex("The {@class |fighter|phb||{@b eldritch knight}|||phb|} is a third-caster"),
             vec![
                 Lexeme::Text("The "),
-                Lexeme::Tag {
-                    name: "class",
-                    args: vec![
-                        "",
-                        "fighter",
-                        "phb",
-                        "",
-                        "{@b eldritch knight}",
-                        "",
-                        "",
-                        "phb",
-                        ""
-                    ],
-                },
+                Lexeme::tag("class", vec![
+                    "",
+                    "fighter",
+                    "phb",
+                    "",
+                    "{@b eldritch knight}",
+                    "",
+                    "",
+                    "phb",
+                    ""
+                ]),
                 Lexeme::Text(" is a third-caster"),
             ],
         );
