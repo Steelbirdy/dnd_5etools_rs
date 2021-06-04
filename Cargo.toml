@@ -11,3 +11,6 @@ members = ["api"]
 
 [dependencies]
 api = { path = "api" }
+
+[dev-dependencies]
+test-case = "1.1.0"
