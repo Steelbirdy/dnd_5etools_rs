@@ -1,4 +1,4 @@
-mod error;
+pub mod error;
 mod lexer;
 mod render;
 pub mod tags;
