@@ -3,6 +3,10 @@ mod lexer;
 mod render;
 mod tags;
 
+pub mod render_utils {
+    pub use super::render::utils::*;
+}
+
 pub use error::*;
 pub use lexer::Lexeme;
 pub use render::{DefaultStringRenderer, RenderString};

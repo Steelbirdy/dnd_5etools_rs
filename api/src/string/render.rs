@@ -1,5 +1,5 @@
 mod default;
-mod utils;
+pub mod utils;
 
 pub use default::DefaultStringRenderer;
 
@@ -354,7 +354,7 @@ impl RenderError {
         R: RangeBounds<usize>,
     {
         Self::ArgCount {
-            expected: utils::bounds_from_range(expected),
+            expected: bounds_from_range(expected),
             found,
         }
     }
@@ -392,4 +392,30 @@ fn format_range((lower, upper): &(Bound<usize>, Bound<usize>)) -> String {
             format!("between {} and {}", lower_bound, n)
         }
     }
+}
+
+pub(crate) fn bounds_from_range<R>(range: R) -> (Bound<usize>, Bound<usize>)
+    where
+        R: RangeBounds<usize>,
+{
+    use Bound::*;
+
+    let (lower, upper) = (range.start_bound(), range.end_bound());
+
+    let lower = match lower {
+        Unbounded => Unbounded,
+        Included(n) => Included(*n),
+        Excluded(n) => Included(*n + 1),
+    };
+
+    let upper = match upper {
+        Unbounded => Unbounded,
+        Included(n) => Included(*n),
+        Excluded(n) => {
+            let n = if *n == 0 { 0 } else { *n - 1 };
+            Included(n)
+        }
+    };
+
+    (lower, upper)
 }
