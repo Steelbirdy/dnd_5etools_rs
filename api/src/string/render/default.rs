@@ -1,13 +1,8 @@
-use super::super::{
-    lexer::{Lexeme, Lexer},
-    tags::Tag,
-    Error, Result,
-};
-use super::{RenderErrorKind, StringRenderer};
+use super::super::{tags::Tag, tokenize, Error, Lexeme, Result};
+use super::{RenderError, StringRenderer};
 use std::collections::HashSet;
 use std::ops::RangeBounds;
 
-#[derive(Copy, Clone)]
 pub struct DefaultStringRenderer;
 
 impl DefaultStringRenderer {
@@ -19,7 +14,6 @@ impl DefaultStringRenderer {
 
                 self.render_tag(tag)
             }
-            Lexeme::Error(kind) => Err(kind.into()),
         }
     }
 
@@ -27,11 +21,11 @@ impl DefaultStringRenderer {
         Ok(text.to_owned())
     }
 
-    fn check_arg_count<R: RangeBounds<usize>>(expected: R, actual: usize) -> Result<()> {
-        if expected.contains(&actual) {
+    fn check_arg_count<R: RangeBounds<usize>>(expected: R, found: usize) -> Result<()> {
+        if expected.contains(&found) {
             Ok(())
         } else {
-            Err(Error::from(RenderErrorKind::ArgCount))
+            Err(RenderError::arg_count(expected, found).into())
         }
     }
 
@@ -107,9 +101,9 @@ impl DefaultStringRenderer {
         if args.len() >= 2 {
             self.render(args[1])
         } else {
-            let n = args[0].parse::<i64>().map_err(|_| {
-                RenderErrorKind::ArgFormat("Could not parse argument as an integer.")
-            })?;
+            let n = args[0]
+                .parse::<i64>()
+                .map_err(|_| RenderError::arg_format("could not parse argument as an integer."))?;
             Ok(format!("{:+}", n))
         }
     }
@@ -121,7 +115,7 @@ impl DefaultStringRenderer {
             .first()
             .map(|s| s.parse::<u8>())
             .unwrap_or(Ok(6))
-            .map_err(|_| RenderErrorKind::ArgFormat("Could not parse argument as an integer."))?;
+            .map_err(|_| RenderError::arg_format("could not parse argument as an integer."))?;
 
         if as_num == 6 {
             Ok("(Recharge 6)".to_owned())
@@ -153,9 +147,7 @@ impl DefaultStringRenderer {
                 old_text
             ))
         } else {
-            Err(Error::from(RenderErrorKind::ArgFormat(
-                "Homebrew tag had neither old nor new text.",
-            )))
+            Err(RenderError::arg_format("homebrew tag had neither old nor new text.").into())
         }
     }
 
@@ -189,7 +181,7 @@ impl DefaultStringRenderer {
 
 impl StringRenderer for DefaultStringRenderer {
     fn render(&self, input: &str) -> Result<String> {
-        Lexer::new(input)
+        tokenize(input)?
             .map(|lexeme| self.render_lexeme(lexeme))
             .collect::<Result<String>>()
     }

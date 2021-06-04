@@ -1,4 +1,5 @@
 mod default;
+mod utils;
 
 pub use default::DefaultStringRenderer;
 
@@ -6,6 +7,9 @@ use super::{
     tags::{Tag, TagName},
     Result,
 };
+use std::fmt::Display;
+use std::ops::{Bound, RangeBounds};
+use thiserror::Error;
 
 pub trait StringRenderer {
     fn render(&self, input: &str) -> Result<String>;
@@ -265,8 +269,57 @@ pub trait StringRenderer {
     }
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub enum RenderErrorKind {
-    ArgCount,
-    ArgFormat(&'static str),
+#[derive(Error, Debug, PartialEq)]
+pub enum RenderError {
+    #[error("wrong number of arguments (expected {}, found {found})", format_range(.expected))]
+    ArgCount {
+        expected: (Bound<usize>, Bound<usize>),
+        found: usize,
+    },
+    #[error("invalid argument format: {0}")]
+    ArgFormat(String),
+    #[error("{0}")]
+    Custom(String),
+}
+
+impl RenderError {
+    pub fn arg_count<R>(expected: R, found: usize) -> Self
+    where
+        R: RangeBounds<usize>,
+    {
+        Self::ArgCount {
+            expected: utils::bounds_from_range(expected),
+            found,
+        }
+    }
+
+    pub fn arg_format<D: Display>(msg: D) -> Self {
+        Self::ArgFormat(msg.to_string())
+    }
+
+    pub fn custom<D: Display>(msg: D) -> Self {
+        Self::Custom(msg.to_string())
+    }
+}
+
+fn format_range((lower, upper): &(Bound<usize>, Bound<usize>)) -> String {
+    let lower_bound = match lower {
+        Bound::Unbounded => 0usize,
+        Bound::Excluded(n) => *n + 1,
+        Bound::Included(n) => *n,
+    };
+
+    match upper {
+        Bound::Unbounded => {
+            format!("{} or more", lower_bound)
+        }
+        Bound::Excluded(n) => {
+            let n = if *n == 0 { 0 } else { n - 1 };
+
+            format!("between {} and {}", lower_bound, n)
+        }
+        Bound::Included(n) => {
+            format!("between {} and {}", lower_bound, n)
+        }
+    }
 }

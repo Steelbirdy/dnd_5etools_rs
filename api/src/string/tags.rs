@@ -1,4 +1,6 @@
+use super::Error;
 use std::str::FromStr;
+use thiserror::Error;
 
 pub enum TagName {
     Bold,
@@ -65,7 +67,7 @@ pub enum TagName {
     Recipe,
 }
 impl FromStr for TagName {
-    type Err = TagErrorKind;
+    type Err = Error;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
@@ -131,7 +133,7 @@ impl FromStr for TagName {
             "language" => Ok(Self::Language),
             "charoption" => Ok(Self::CharOption),
             "recipe" => Ok(Self::Recipe),
-            _ => Err(TagErrorKind::UnrecognizedName(s.to_owned())),
+            _ => Err(TagError::UnrecognizedName(s.to_string()).into()),
         }
     }
 }
@@ -149,7 +151,8 @@ impl<'a> Tag<'a> {
     }
 }
 
-#[derive(Debug, Clone, PartialEq)]
-pub enum TagErrorKind {
+#[derive(Error, Debug, Clone, PartialEq)]
+pub enum TagError {
+    #[error("unrecognized tag name `{0}`")]
     UnrecognizedName(String),
 }

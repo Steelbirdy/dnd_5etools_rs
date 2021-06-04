@@ -1,12 +1,8 @@
+use super::Result;
 use logos::{Logos, SpannedIter};
 use std::iter::Peekable;
-
-/// Tokenize a string. This non-recursively separates tags within the string from raw text.
-#[allow(dead_code)]
-#[inline]
-pub fn lex_string(source: &str) -> impl Iterator<Item = Lexeme<'_>> {
-    Lexer::new(source)
-}
+use std::ops::Range;
+use thiserror::Error;
 
 /// Wrapper around logos::Lexer<'a, Token>
 pub(crate) struct Lexer<'a> {
@@ -21,33 +17,40 @@ impl<'a> Lexer<'a> {
         Self { inner, source }
     }
 
-    fn next(&mut self) -> Option<Lexeme<'a>> {
+    fn next(&mut self) -> Option<Result<Lexeme<'a>>> {
         let (token, span) = match self.inner.next() {
             Some(v) => v,
             None => return None,
         };
         // TODO: Add an EscapedTagOpen token variant for "\{@"
         let ret = match token {
-            Token::TagOpen => self.tag(),
+            Token::TagOpen => self.tag(span.start),
             Token::TagClose | Token::ArgSeparator | Token::Text => self.text(span.start),
-            Token::Error => self.error(LexErrorKind::UnexpectedToken),
+            Token::Error => self.error(LexError::UnexpectedToken {
+                token: self.slice(&span).to_string(),
+                index: span.start,
+            }),
         };
 
         Some(ret)
     }
 
-    fn tag(&mut self) -> Lexeme<'a> {
+    fn tag(&mut self, start: usize) -> Result<Lexeme<'a>> {
         // The span of the first token inside the tag. This will always span at least the tag's name.
         let first_span = match self.inner.next() {
             Some((Token::Text, span)) => span,
-            Some(_) => return self.error(LexErrorKind::NoTagName),
-            None => return self.error(LexErrorKind::UnclosedTag),
+            Some(_) => {
+                return self.error(LexError::NoTagName(start));
+            }
+            None => {
+                return self.error(LexError::UnclosedTag(start));
+            }
         };
 
         // Split the token at the first space to get the tag's name.
-        let tag_name = match self.source[first_span.clone()].split_once(' ') {
+        let tag_name = match self.slice(&first_span).split_once(' ') {
             Some((s, _)) => s,
-            None => &self.source[first_span.clone()],
+            None => self.slice(&first_span),
         };
 
         // We need to match the correct pair of brackets to account for nested tags.
@@ -60,7 +63,7 @@ impl<'a> Lexer<'a> {
         let end: usize = loop {
             let (token, span) = match self.inner.next() {
                 Some(v) => v,
-                None => return self.error(LexErrorKind::UnclosedTag),
+                None => return self.error(LexError::UnclosedTag(start)),
             };
 
             match token {
@@ -78,13 +81,18 @@ impl<'a> Lexer<'a> {
                         if last_arg_start >= span.start {
                             args.push("");
                         } else {
-                            args.push(&self.source[last_arg_start..span.start]);
+                            args.push(self.slice(&(last_arg_start..span.start)));
                         }
                         last_arg_start = span.end;
                     }
                 }
                 Token::Text => (),
-                Token::Error => return self.error(LexErrorKind::UnexpectedToken),
+                Token::Error => {
+                    return self.error(LexError::UnexpectedToken {
+                        token: self.slice(&span).to_string(),
+                        index: span.start,
+                    })
+                }
             }
         };
 
@@ -93,16 +101,16 @@ impl<'a> Lexer<'a> {
                 args.push("");
             }
         } else {
-            args.push(&self.source[last_arg_start..end - 1]);
+            args.push(self.slice(&(last_arg_start..end - 1)));
         }
 
-        Lexeme::Tag {
+        Ok(Lexeme::Tag {
             name: tag_name,
             args,
-        }
+        })
     }
 
-    fn text(&mut self, start: usize) -> Lexeme<'a> {
+    fn text(&mut self, start: usize) -> Result<Lexeme<'a>> {
         let end = loop {
             let (token, span) = match self.inner.peek() {
                 Some(v) => v,
@@ -117,21 +125,31 @@ impl<'a> Lexer<'a> {
                     self.inner.next();
                 }
                 Token::Error => {
-                    return self.error(LexErrorKind::UnexpectedToken);
+                    let span = span.start..span.end;
+                    let token = self.slice(&span).to_string();
+
+                    return self.error(LexError::UnexpectedToken {
+                        token,
+                        index: span.start,
+                    });
                 }
             }
         };
 
-        Lexeme::Text(&self.source[start..end])
+        Ok(Lexeme::Text(self.slice(&(start..end))))
     }
 
-    fn error(&mut self, kind: LexErrorKind) -> Lexeme<'a> {
-        Lexeme::Error(kind)
+    fn error<T>(&self, err: LexError) -> Result<T> {
+        Err(err.into())
+    }
+
+    fn slice(&self, span: &Range<usize>) -> &'a str {
+        &self.source[span.start..span.end]
     }
 }
 
 impl<'a> Iterator for Lexer<'a> {
-    type Item = Lexeme<'a>;
+    type Item = Result<Lexeme<'a>>;
 
     fn next(&mut self) -> Option<Self::Item> {
         self.next()
@@ -142,14 +160,16 @@ impl<'a> Iterator for Lexer<'a> {
 pub enum Lexeme<'a> {
     Tag { name: &'a str, args: Vec<&'a str> },
     Text(&'a str),
-    Error(LexErrorKind),
 }
 
-#[derive(Debug, Copy, Clone, PartialEq)]
-pub enum LexErrorKind {
-    NoTagName,
-    UnclosedTag,
-    UnexpectedToken,
+#[derive(Error, Debug, Clone, PartialEq)]
+pub enum LexError {
+    #[error("tag beginning at index {0} does not have a name")]
+    NoTagName(usize),
+    #[error("tag beginning at index {0} is never closed")]
+    UnclosedTag(usize),
+    #[error("unexpected token `{token}` at index `{index}`")]
+    UnexpectedToken { token: String, index: usize },
 }
 
 #[derive(Debug, Copy, Clone, PartialEq, Logos)]
@@ -229,7 +249,7 @@ mod tests {
     }
 
     fn lex(input: &str) -> Vec<Lexeme> {
-        Lexer::new(input).into_iter().collect()
+        Lexer::new(input).map(|l| l.unwrap()).collect()
     }
 
     #[test]

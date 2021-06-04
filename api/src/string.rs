@@ -1,17 +1,22 @@
-pub mod error;
+mod error;
 mod lexer;
 mod render;
-pub mod tags;
+mod tags;
 
-pub use error::Error;
-pub use lexer::{lex_string, LexErrorKind, Lexeme};
+pub use error::*;
+pub use lexer::Lexeme;
 pub use render::{DefaultStringRenderer, StringRenderer};
-
-pub type Result<T> = std::result::Result<T, Error>;
+pub use tags::{Tag, TagError, TagName};
 
 #[allow(dead_code)]
 pub fn render<R: StringRenderer>(renderer: R, input: &str) -> Result<String> {
     renderer.render(input)
+}
+
+pub fn tokenize(input: &str) -> Result<impl Iterator<Item = Lexeme>> {
+    Ok(lexer::Lexer::new(input)
+        .collect::<Result<Vec<_>>>()?
+        .into_iter())
 }
 
 #[cfg(test)]
